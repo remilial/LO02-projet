@@ -1,3 +1,5 @@
+package com.pocketimperium.model;
+
 public class Player {
     String name;
     int type; // 0 est un bot 1 est une personne réelle
