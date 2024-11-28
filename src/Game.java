@@ -4,8 +4,7 @@ public class Game {
     // ROUND
     // PLAYER LIST
     Player p1, p2, p3;
-    int cas = 0;
-    public void menu(){
+    public void affichermenu(){
         System.out.println("Welcome to the game of Pocket Imperium");
         System.out.println("1.Would you like to play new game");
         System.out.println("2.Would you like to load recent game?");
@@ -14,7 +13,6 @@ public class Game {
     }
     public void startGame(){
         System.out.println("Game Started");
-        settingGame();
     }
     public void loadGame(){
         System.out.println("Loading Game");
@@ -43,24 +41,6 @@ public class Game {
         System.out.println("   - Un décompte final des points est effectué pour déterminer le gagnant.");
         System.out.println("===================================");
         System.out.println("1. Return to Menu");
-    }
-
-    public void settingGame(){
-        settingName();
-        settingColor();
-        settingStartingPoint();
-
-    }
-
-    private void settingStartingPoint() {
-
-    }
-
-    public void settingName(){
-        
-    }
-    public void settingColor(){
-
     }
 
 }
