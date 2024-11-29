@@ -80,6 +80,7 @@ Mise à Jour des Diagrammes UML :
 Mettre à jour votre diagramme de classes pour refléter le code final.
 
 Étape 1 : Organisation du Projet
+
 com.pocketimperium.model : Contient les classes du modèle (logique métier).
 com.pocketimperium.view : Contient les classes liées à l'interface utilisateur (vue).
 com.pocketimperium.controller : Contient les classes qui gèrent les interactions entre le modèle et la vue (contrôleur).
