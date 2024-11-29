@@ -1,7 +1,5 @@
 package com.pocketimperium.model;
 
 public abstract class Card {
-    public void playCard(){
-
-    }
+    public abstract void playCard(Player player);
 }
