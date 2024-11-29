@@ -1,9 +1,32 @@
 package com.pocketimperium.model;
+import com.pocketimperium.utils.Strategy;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
-    String name;
-    int type; // 0 est un bot 1 est une personne réelle
-    String couleur;
-    int score;
-    int nb_bateau;
+    protected String name;
+    protected Color color;
+    protected List<Ship> ships;
+    protected List<Card> slectedCards;
+    protected Strategy strategy;
+
+    public Player(String name, Color color) {
+        this.name = name;
+        this.color = color;
+        this.ships = new ArrayList<>();
+        this.slectedCards = new ArrayList<>();
+    }
+
+    public void chooseCard(){
+
+    }
+
+    public void playCard(){
+
+    }
+
+    public void getScore(){
+
+    }
 }
