@@ -10,7 +10,7 @@ Jeu
 Joueur (et ses sous-classes pour les joueurs virtuels)
 Secteur
 Vaisseau
-Commande (avec les sous-classes Expand, Explore, Exterminate)
+Commande (avec les sous-classes com.pocketimperium.model.commands.Expand, com.pocketimperium.model.Explore, Exterminate)
 Système
 Relations entre les Classes :
 Assurer que les relations (association, agrégation, composition, héritage) sont correctement implémentées.
@@ -35,7 +35,7 @@ Gestion des Entrées Utilisateur :
 Validez les entrées pour éviter les erreurs et assurer une bonne expérience utilisateur.
 5. Implémentation des Commandes et du Flux de Jeu
 Commandes :
-Implémentez les commandes Expand, Explore, Exterminate selon les règles du jeu.
+Implémentez les commandes com.pocketimperium.model.commands.Expand, com.pocketimperium.model.Explore, Exterminate selon les règles du jeu.
 Cycle de Jeu :
 Programmez les phases du jeu :
 Planification : Les joueurs choisissent leurs commandes.
@@ -84,7 +84,7 @@ Mettre à jour votre diagramme de classes pour refléter le code final.
 com.pocketimperium.model : Contient les classes du modèle (logique métier).
 com.pocketimperium.view : Contient les classes liées à l'interface utilisateur (vue).
 com.pocketimperium.controller : Contient les classes qui gèrent les interactions entre le modèle et la vue (contrôleur).
-com.pocketimperium.utils : Contient les classes utilitaires (par exemple, pour la sérialisation, les constantes).
+com.pocketimperium.model.utils : Contient les classes utilitaires (par exemple, pour la sérialisation, les constantes).
 doc/ : Dossier pour la documentation du code (Javadoc).
 
 Package model :
@@ -96,7 +96,7 @@ Vaisseau : Classe représentant un vaisseau spatial.
 Secteur : Classe représentant un secteur du plateau de jeu.
 Systeme : Classe représentant un système au sein d'un secteur.
 Commande : Classe abstraite ou interface pour les commandes.
-Sous-classes : Expand, Explore, Exterminate.
+Sous-classes : com.pocketimperium.model.commands.Expand, com.pocketimperium.model.Explore, Exterminate.
 Package controller :
 
 JeuController : Gère le flux du jeu et les interactions avec le modèle.
