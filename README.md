@@ -1,17 +1,74 @@
-1. Faire un menu pouvant quiter le jeu et avoir le choix #fait
-2. faire en sorte que la classe Game soit Singleton
-2. Pouvoir faire une nouvelle partie avec creation des joueurs et tout
-3. faire une partie a 9 tours
-4. pouvoir faire utiliser les fonctions
-5. Créer la map 
-6. utliser les fonctions sur la map
-7. Création de bateaux
-8. Pouvoir utiliser les bateau sur la map
-9. Calculer les scores entre les joueurs 
-10. Donner le winner apres neuf tours
-11. Mettre dans la partie menu Les rules
-12. Ajouter une option dans une partie loption de pouvoir quitter et sauvegarder$
-13. Pouvoir utiliser la sauvegarde dans loption 2 du menu
-14. Mettre au propre le code 
-15. Essayer de voir si le code est suit bien le cahier des charges
-16. Faire la partie interface graphique
+Étape 1 : Organisation du Code et Packages
+
+Créez vos packages pour séparer les différentes couches. Par exemple :
+model : contient la logique métier (model.Board, Sector, Hex, model.Player, Commands, etc.)
+controller : contient la classe model.Game et éventuellement les classes pour le "moteur".
+view : contiendra une classe ConsoleView qui s’occupe de l’IHM en mode console.
+strategy : contiendra vos stratégies IA (optionnel pour l’instant, un simple RandomStrategy par exemple).
+
+Niveau Cœur du Jeu (Modèle)
+
+1. Game
+Gère le déroulement global de la partie (tours, phases, scores finaux).
+Coordonne les interactions entre joueurs, plateau et commandes.
+2. Player (classe abstraite ou concrète)
+Représente un joueur.
+Stocke son nom, son score, ses commandes planifiées pour le tour.
+3. RealPlayer (hérite de Player)
+Gère l’interaction avec un joueur humain (via la vue).
+4. BotPlayer (hérite de Player)
+Joueur virtuel. Décide de ses commandes et actions via une stratégie.
+5. Strategy (interface)
+Définit une méthode permettant aux bots de planifier leurs commandes et potentiellement d’autres actions.
+Implémentations possibles : RandomStrategy, AggressiveStrategy, etc.
+6. Board
+Représente le plateau global (3x3 secteurs).
+Fournit des méthodes pour accéder aux secteurs et hex, calculer les voisins, etc.
+7. Sector
+Représente un secteur (une carte du jeu).
+Contient un ensemble d’hex (cases hexagonales).
+8. Hex
+Représente une case hexagonale.
+Connaît son type de système (SystemType), les vaisseaux présents, le contrôleur éventuel.
+9. SystemType (enum)
+Indique le niveau du système dans un hex : NONE, LEVEL1, LEVEL2, LEVEL3 (Tri-Prime).
+10. CommandType (enum)
+Énumération des trois commandes disponibles : EXPAND, EXPLORE, EXTERMINATE.
+11. Command (interface ou classe abstraite)
+Représente une commande générique.
+Définir des méthodes comme execute(Player p, Game g, int nbPlayers).
+Implémentations concrètes :
+ExpandCommand
+ExploreCommand
+ExterminateCommand
+
+Niveau Contrôle / Gestion du Flux
+
+12. SaveManager
+    Gère la sauvegarde et le chargement de l’état du jeu (joueurs, plateau, scores) dans un fichier.
+
+Niveau Vue (Interface en Ligne de Commande)
+
+13. ConsoleView (ou TextView)
+    Affiche le menu principal, demande les noms des joueurs, leurs commandes pour le tour, affiche le plateau textuellement et les scores.
+    Lit les entrées clavier de l’utilisateur.
+
+Interface Graphique (Optionnel, Challenge Personnel)
+
+14. GUIView
+Fournit une interface graphique (Swing, JavaFX, etc.)
+Affiche le plateau, les commandes via des boutons, met à jour en fonction de l’état du Game.
+Interagit avec un contrôleur si vous mettez en place un pattern MVC complet.
+15. EventHandlers / Listeners (optionnel)
+Si vous utilisez JavaFX, par exemple, vous pouvez avoir des classes ou des lambdas gérant les
+événements utilisateurs sur l’interface.
+
+Contrôleur (si MVC complet)
+
+16. GameController (optionnel si vous faites un MVC strict)
+    Intermédiaire entre le Game (modèle) et la GUIView (vue).
+    Reçoit les événements de l’interface graphique, met à jour le modèle, notifie la vue.
+
+17. Démarrage de l’application:
+
+Main (méthode main pour lancer le jeu)
