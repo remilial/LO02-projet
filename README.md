@@ -1,7 +1,7 @@
 Étape 1 : Organisation du Code et Packages
 
 Créez vos packages pour séparer les différentes couches. Par exemple :
-model : contient la logique métier (model.Board, Sector, Hex, model.Player, Commands, etc.)
+model : contient la logique métier (model.Board, model.Sector, Hex, model.Player, Commands, etc.)
 controller : contient la classe model.Game et éventuellement les classes pour le "moteur".
 view : contiendra une classe ConsoleView qui s’occupe de l’IHM en mode console.
 strategy : contiendra vos stratégies IA (optionnel pour l’instant, un simple RandomStrategy par exemple).
@@ -24,7 +24,7 @@ Implémentations possibles : RandomStrategy, AggressiveStrategy, etc.
 6. Board
 Représente le plateau global (3x3 secteurs).
 Fournit des méthodes pour accéder aux secteurs et hex, calculer les voisins, etc.
-7. Sector
+7. model.Sector
 Représente un secteur (une carte du jeu).
 Contient un ensemble d’hex (cases hexagonales).
 8. Hex
