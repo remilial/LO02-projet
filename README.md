@@ -1,4 +1,5 @@
-1. Faire un menu pouvant quiter le jeu et avoir le choix
+1. Faire un menu pouvant quiter le jeu et avoir le choix #fait
+2. faire en sorte que la classe Game soit Singleton
 2. Pouvoir faire une nouvelle partie avec creation des joueurs et tout
 3. faire une partie a 9 tours
 4. pouvoir faire utiliser les fonctions
