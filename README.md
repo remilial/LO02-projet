@@ -44,7 +44,7 @@ ExterminateCommand
 
 Niveau Contrôle / Gestion du Flux
 
-12. SaveManager
+12. controller.SaveManager
     Gère la sauvegarde et le chargement de l’état du jeu (joueurs, plateau, scores) dans un fichier.
 
 Niveau Vue (Interface en Ligne de Commande)
