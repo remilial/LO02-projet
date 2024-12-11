@@ -1,2 +1,4 @@
-public class Expand extends Command{
+import model.Command;
+
+public class Expand extends Command {
 }

@@ -1,2 +1,4 @@
-public class Attack extends Command{
+import model.Command;
+
+public class Attack extends Command {
 }
