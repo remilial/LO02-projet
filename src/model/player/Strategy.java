@@ -1,4 +1,7 @@
 package model.player;
 
-public class Strategy {
+import model.player.Player;
+
+public interface Strategy {
+    void execute(Player player);
 }

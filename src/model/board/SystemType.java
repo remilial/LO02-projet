@@ -1,4 +1,8 @@
 package model.board;
 
-public class SystemType {
+public enum SystemType {
+    NONE, LEVEL1, LEVEL2, LEVEL3;
 }
+
+
+

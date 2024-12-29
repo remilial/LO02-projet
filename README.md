@@ -1,103 +1,100 @@
-PocketImperium/
-│
-├── src/
-│   ├── controller/
-│   │   ├── GameController.java
-│   │   ├── SaveManager.java
-│   │   └── CommandHandler.java
-│   │
-│   ├── model/
-│   │   ├── board/
-│   │   │   ├── Board.java
-│   │   │   ├── Sector.java
-│   │   │   ├── Hex.java
-│   │   │   └── SystemType.java
-│   │   │
-│   │   ├── player/
-│   │   │   ├── Player.java
-│   │   │   ├── RealPlayer.java
-│   │   │   ├── BotPlayer.java
-│   │   │   └── Strategy.java
-│   │   │
-│   │   ├── command/
-│   │   │   ├── Command.java
-│   │   │   └── CommandType.java
-│   │   │
-│   │   └── Game.java
-│   │
-│   ├── view/
-│   │   ├── cli/
-│   │   │   └── ConsoleView.java
-│   │   └── gui/
-│   │       ├── GuiView.java
-│   │       └── GameEventHandlers.java
-│   │
-│   └── Main.java
-│
-└── test/
-├── GameTest.java
-├── PlayerTest.java
-└── SectorTest.java
-1. Controller Layer (controller/)
-   Manages the game flow, input processing, and interaction between model and view.
-2. Model Layer (model/)
-   Represents the game logic, including the board, players, commands, and game rules.
-3. View Layer (view/)
-   Displays game state (console or GUI), providing feedback and user interaction.
-4. Main Class (Main.java)
-   Entry point of the application. Initializes the game and launches the controller.
-5. Test Layer (test/)
-   Contains JUnit test cases for critical components.
+# Pocket Imperium
 
-GameController	Oversees the main game loop, coordinates phases (Plan, Perform).
-SaveManager	Handles saving/loading of game states (serialization).
-CommandHandler	Processes player/bot commands during game phases.
-Game	Central class managing overall game state and progression.
-Board	Represents the 3x3 game grid with sectors.
-Sector	Contains Hex objects, controls ships, and system levels.
-Hex	Represents individual hexagonal tiles in sectors.
-SystemType (enum)	Enum representing system levels (I, II, III).
-Player	Abstract class for player data (name, ships, points).
-RealPlayer	Represents human players, handles manual input.
-BotPlayer	AI-controlled player using predefined strategies.
-Strategy (interface)	Interface for AI strategies (Expand, Explore, Exterminate).
-Command	Represents individual player commands.
-CommandType (enum)	Enum for command types (EXPAND, EXPLORE, EXTERMINATE).
-ConsoleView	Displays the game in the terminal (CLI interface).
-GuiView	Swing/JavaFX interface for graphical representation.
-GameEventHandlers	Handles GUI interactions and forwards them to the controller.
-GameTest	Tests overall game functionality.
-PlayerTest	Tests player actions, scoring, and commands.
-SectorTest	Tests sector and hex interactions.
-*************************************************************************************************
-Workload Division:
+## Description
+Pocket Imperium est une adaptation logicielle en Java du jeu de stratégie éponyme. Ce projet respecte les principes de la programmation orientée objet et intègre des patrons de conception (MVC, Strategy, Singleton, etc.). Le jeu propose une expérience pour trois joueurs, humains ou virtuels, avec des stratégies variées. L'application permet de sauvegarder et de reprendre des parties.
 
-Rayan
-Tasks:
-Board.java – Initialize and manage the game grid (3x3 sectors).
-Sector.java – Represent sectors with system levels (I, II, III).
-Hex.java – Handle individual tiles (hexes) in each sector.
-SystemType.java – Create an enum for system levels (I, II, III).
-Strategy.java – Develop AI strategies (Expand, Explore, Exterminate).
-SaveManager.java – Handle game state persistence (save/load).
-CommandHandler.java – Process player and bot commands during each phase.
-GameEventHandlers.java – Handle GUI inputs and send them to the controller.
-ConsoleView.java – Implement CLI for game interaction.
-GuiView.java – Build a basic GUI (Swing or JavaFX).
-Unit tests for Sector classes.
-Test GameController, SaveManager, and GUI components.
 
-Ali
-Tasks:
-Command.java – Represents player actions.
-CommandType.java – Enum defining available commands.
-Player.java – Abstract base class for all players.
-RealPlayer.java – Manage input and actions for human players.
-BotPlayer.java – Implement AI logic for virtual players.
-Game.java – Implement the game loop, phases (Plan, Perform, Exploit).
-Main.java – Launch the game, initialize the board, players, and start the game loop.
-GameController.java – Manage overall game flow, coordinate players.
-ConsoleView.java – Implement CLI for game interaction.
-GuiView.java – Build a basic GUI (Swing or JavaFX).
-Unit tests for Game, Player.
-Test GameController, SaveManager, and GUI components.
+---
+
+## Structure du Projet
+
+PocketImperium/  
+│  
+├── src/  
+│   ├── controller/  
+│   │   ├── GameController.java       # Gère la boucle principale du jeu  
+│   │   ├── SaveManager.java          # Gestion des sauvegardes/chargements  
+│   │   └── CommandHandler.java       # Traite les commandes des joueurs/bots  
+│   │  
+│   ├── model/  
+│   │   ├── board/  
+│   │   │   ├── Board.java            # Grille de jeu à 3x3 secteurs  
+│   │   │   ├── Sector.java           # Contient les hexes, contrôle les navires  
+│   │   │   ├── Hex.java              # Représentation individuelle des tuiles hexagonales  
+│   │   │   ├── Ship.java             # Classe pour représenter les vaisseaux  
+│   │   │   └── SystemType.java       # Enumération des niveaux des systèmes (I, II, III)  
+│   │   │  
+│   │   ├── player/  
+│   │   │   ├── Player.java           # Classe abstraite pour les données des joueurs  
+│   │   │   ├── RealPlayer.java       # Gère les joueurs humains  
+│   │   │   ├── BotPlayer.java        # Gère les bots  
+│   │   │   └── Strategy.java         # Interface pour les stratégies du bot  
+│   │   │  
+│   │   ├── command/  
+│   │   │   ├── Command.java          # Représentation des commandes des joueurs  
+│   │   │   └── CommandType.java      # Enum des types de commandes disponibles  
+│   │   │  
+│   │   └── Game.java                 # Gestion globale du jeu  
+│  
+│   ├── view/  
+│   │   ├── cli/  
+│   │   │   └── ConsoleView.java      # Interface CLI (console)  
+│   │   └── gui/  
+│   │       ├── GuiView.java          # Interface graphique Swing/JavaFX  
+│   │       └── GameEventHandlers.java # Gestion des événements GUI  
+│  
+│   └── Main.java                     # Point d'entrée de l'application  
+│  
+└── test/  
+├── GameTest.java                 # Tests unitaires du jeu  
+├── PlayerTest.java               # Tests des actions des joueurs  
+└── SectorTest.java               # Tests des interactions sectorielles
+
+---
+
+## Composants Principaux
+- **Controller Layer (controller/)** : Gère la logique du jeu et la coordination entre les modèles et les vues.
+- **Model Layer (model/)** : Contient la logique métier et la représentation des éléments du jeu.
+- **View Layer (view/)** : Interfaces CLI et GUI pour l'interaction avec l'utilisateur.
+- **Main Class (Main.java)** : Point de démarrage de l'application.
+- **Test Layer (test/)** : Tests unitaires pour assurer la stabilité du jeu.
+
+---
+
+## Commandes et Classes Clés
+- **GameController** : Supervise la boucle de jeu et les phases principales.
+- **SaveManager** : Gère la persistance (sauvegarde/chargement).
+- **CommandHandler** : Traite les commandes des joueurs.
+- **Board** : Grille du jeu (3x3).
+- **Sector** : Gère les hexes et les vaisseaux.
+- **Player (abstract)** : Classe de base pour les joueurs (humains et bots).
+- **Strategy** : Stratégies des bots (Exploit, Explore, Exterminate).
+- **ConsoleView / GuiView** : Interface CLI ou GUI.
+
+---
+
+## Répartition des Tâches
+### Rayan
+1. [ ] **Board.java** : Initialisation et gestion de la grille (3x3).
+2. [ ] **Sector.java** : Gestion des secteurs et niveaux de systèmes.
+3. [ ] **Hex.java** : Tuiles hexagonales.
+4. [ ] **SystemType.java** : Enumération des niveaux de système.
+5. [ ] **Ship.java** : Représentation des vaisseaux.
+6. [ ] **Strategy.java** : Stratégies IA.
+7. [ ] **SaveManager.java** : Gestion des sauvegardes.
+8. [ ] **CommandHandler.java** : Traitement des commandes.
+9. [ ] **GameEventHandlers.java** : Gestion des événements GUI.
+10. [ ] **ConsoleView / GuiView** : Implémentation CLI et GUI.
+11. [ ] **Tests** : Secteurs, GUI, GameController.
+
+### Ali
+1. [ ] **Command.java** : Représentation des commandes.
+2. [ ] **CommandType.java** : Enum des commandes.
+3. [x] **Player.java** : Classe de base pour les joueurs.
+4. [ ] **RealPlayer.java** : Gestion des joueurs humains.
+5. [ ] **BotPlayer.java** : IA pour les joueurs virtuels.
+6. [ ] **Game.java** : Logique du jeu et phases.
+7. [ ] **Main.java** : Initialisation du jeu.
+8. [ ] **GameController.java** : Coordination globale.
+9. [ ] **ConsoleView / GuiView** : Interfaces utilisateurs.
+10. [ ] **Tests** : Joueurs, Game, GameController.
