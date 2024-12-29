@@ -1,4 +1,4 @@
-package GuiView;
+package view.gui;
 
 public class GuiView {
 }
