@@ -1,4 +1,6 @@
-package model;
+package model.board;
+
+import model.player.Player;
 
 public class Sector {
     private final int x, y;
@@ -25,5 +27,11 @@ public class Sector {
 
     public void setSystemType(SystemType systemType) {
         this.systemType = systemType;
+    }
+
+    // A COMPLETER LE PLUS RAPIDEMENT POSSBILE POUR LES TEST
+    public void addShips(int shipCount, Player player) {
+    }
+    public int getSystemLevel() {
     }
 }
