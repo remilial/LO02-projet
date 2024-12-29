@@ -69,3 +69,29 @@ GameEventHandlers	Handles GUI interactions and forwards them to the controller.
 GameTest	Tests overall game functionality.
 PlayerTest	Tests player actions, scoring, and commands.
 SectorTest	Tests sector and hex interactions.
+*************************************************************************************************
+Workload Division:
+First Person (Core Game Logic & Model Implementation)
+Focus: Game Mechanics, Rules, and Back-End Systems
+Tasks:
+
+Model Layer (Game Core)
+
+Game.java – Implement the game loop, phases (Plan, Perform, Exploit).
+Board.java – Initialize and manage the game grid (3x3 sectors).
+Sector.java – Represent sectors with system levels (I, II, III).
+Hex.java – Handle individual tiles (hexes) in each sector.
+SystemType.java – Create an enum for system levels (I, II, III).
+Players and Strategies
+
+Player.java – Abstract base class for all players.
+RealPlayer.java – Manage input and actions for human players.
+BotPlayer.java – Implement AI logic for virtual players.
+Strategy.java – Develop AI strategies (Expand, Explore, Exterminate).
+Commands and Actions
+
+Command.java – Represents player actions.
+CommandType.java – Enum defining available commands.
+Testing (JUnit)
+
+Unit tests for Game, Player, and Sector classes.
