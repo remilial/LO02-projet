@@ -71,27 +71,33 @@ PlayerTest	Tests player actions, scoring, and commands.
 SectorTest	Tests sector and hex interactions.
 *************************************************************************************************
 Workload Division:
-First Person (Core Game Logic & Model Implementation)
-Focus: Game Mechanics, Rules, and Back-End Systems
+
+Rayan
 Tasks:
-
-Model Layer (Game Core)
-
-Game.java – Implement the game loop, phases (Plan, Perform, Exploit).
 Board.java – Initialize and manage the game grid (3x3 sectors).
 Sector.java – Represent sectors with system levels (I, II, III).
 Hex.java – Handle individual tiles (hexes) in each sector.
 SystemType.java – Create an enum for system levels (I, II, III).
-Players and Strategies
+Strategy.java – Develop AI strategies (Expand, Explore, Exterminate).
+SaveManager.java – Handle game state persistence (save/load).
+CommandHandler.java – Process player and bot commands during each phase.
+GameEventHandlers.java – Handle GUI inputs and send them to the controller.
+ConsoleView.java – Implement CLI for game interaction.
+GuiView.java – Build a basic GUI (Swing or JavaFX).
+Unit tests for Sector classes.
+Test GameController, SaveManager, and GUI components.
 
+Ali
+Tasks:
+Command.java – Represents player actions.
+CommandType.java – Enum defining available commands.
 Player.java – Abstract base class for all players.
 RealPlayer.java – Manage input and actions for human players.
 BotPlayer.java – Implement AI logic for virtual players.
-Strategy.java – Develop AI strategies (Expand, Explore, Exterminate).
-Commands and Actions
-
-Command.java – Represents player actions.
-CommandType.java – Enum defining available commands.
-Testing (JUnit)
-
-Unit tests for Game, Player, and Sector classes.
+Game.java – Implement the game loop, phases (Plan, Perform, Exploit).
+Main.java – Launch the game, initialize the board, players, and start the game loop.
+GameController.java – Manage overall game flow, coordinate players.
+ConsoleView.java – Implement CLI for game interaction.
+GuiView.java – Build a basic GUI (Swing or JavaFX).
+Unit tests for Game, Player.
+Test GameController, SaveManager, and GUI components.
