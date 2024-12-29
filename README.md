@@ -24,7 +24,7 @@ Implémentations possibles : RandomStrategy, AggressiveStrategy, etc.
 6. Board
 Représente le plateau global (3x3 secteurs).
 Fournit des méthodes pour accéder aux secteurs et hex, calculer les voisins, etc.
-7. model.Sector
+7. Sector
 Représente un secteur (une carte du jeu).
 Contient un ensemble d’hex (cases hexagonales).
 8. model.Hex
@@ -32,7 +32,7 @@ Représente une case hexagonale.
 Connaît son type de système (model.SystemType), les vaisseaux présents, le contrôleur éventuel.
 9. model.SystemType (enum)
 Indique le niveau du système dans un hex : NONE, LEVEL1, LEVEL2, LEVEL3 (Tri-Prime).
-10. model.CommandType (enum)
+10. model.Command.CommandType (enum)
 Énumération des trois commandes disponibles : EXPAND, EXPLORE, EXTERMINATE.
 11. model.Command (interface ou classe abstraite)
 Représente une commande générique.
