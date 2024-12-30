@@ -90,7 +90,7 @@ PocketImperium/
 ### Ali
 1. [ ] **Command.java** : Représentation des commandes.
 2. [ ] **CommandType.java** : Enum des commandes.
-3. [x] **Player.java** : Classe de base pour les joueurs.
+3. [ ] **Player.java** : Classe de base pour les joueurs.
 4. [ ] **RealPlayer.java** : Gestion des joueurs humains.
 5. [ ] **BotPlayer.java** : IA pour les joueurs virtuels.
 6. [ ] **Game.java** : Logique du jeu et phases.
