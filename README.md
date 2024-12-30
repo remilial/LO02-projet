@@ -75,26 +75,26 @@ PocketImperium/
 
 ## Répartition des Tâches
 ### Rayan
-1. [ ] **Board.java** : Initialisation et gestion de la grille (3x3).
-2. [ ] **Sector.java** : Gestion des secteurs et niveaux de systèmes.
-3. [ ] **Hex.java** : Tuiles hexagonales.
-4. [ ] **SystemType.java** : Enumération des niveaux de système.
-5. [ ] **Ship.java** : Représentation des vaisseaux.
-6. [ ] **Strategy.java** : Stratégies IA.
-7. [ ] **SaveManager.java** : Gestion des sauvegardes.
-8. [ ] **CommandHandler.java** : Traitement des commandes.
-9. [ ] **GameEventHandlers.java** : Gestion des événements GUI.
-10. [ ] **ConsoleView / GuiView** : Implémentation CLI et GUI.
-11. [ ] **Tests** : Secteurs, GUI, GameController.
+1. [ ] Board.java – Grille de jeu 3x3.
+2. [ ] Sector.java – Gestion des secteurs et vaisseaux.
+3. [ ] Hex.java – Tuiles hexagonales.
+4. [ ] SystemType.java – Enumération des niveaux.
+5. [ ] Ship.java – Gestion des vaisseaux.
+6. [ ] Strategy.java – Stratégie IA pour BotPlayer.
+7. [ ] SaveManager.java – Sauvegarde/chargement de la partie.
+8. [ ] CommandHandler.java – Gestion de l'exécution des commandes (en lien avec Command).
+9. [ ] GameEventHandlers.java – Événements GUI.
+10. [ ] ConsoleView / GuiView – Interfaces utilisateurs.
+11. [ ] Tests – Secteurs, vaisseaux, sauvegarde.
 
 ### Ali
-1. [ ] **Command.java** : Représentation des commandes.
-2. [ ] **CommandType.java** : Enum des commandes.
-3. [ ] **Player.java** : Classe de base pour les joueurs.
-4. [ ] **RealPlayer.java** : Gestion des joueurs humains.
-5. [ ] **BotPlayer.java** : IA pour les joueurs virtuels.
-6. [ ] **Game.java** : Logique du jeu et phases.
-7. [ ] **Main.java** : Initialisation du jeu.
-8. [ ] **GameController.java** : Coordination globale.
-9. [ ] **ConsoleView / GuiView** : Interfaces utilisateurs.
-10. [ ] **Tests** : Joueurs, Game, GameController.
+1. [ ] Command.java – Représentation des commandes.
+2. [ ] CommandType.java – Enum pour les types de commandes.
+3. [ ] Player.java – Classe abstraite des joueurs.
+4. [ ] RealPlayer.java – Joueur humain.
+5. [ ] BotPlayer.java – Joueur IA.
+6. [ ] Game.java – Gestion du déroulement du jeu.
+7. [ ] Main.java – Lancement du jeu.
+8. [ ] GameController.java – Gestion des tours de jeu.
+9. [ ] ConsoleView / GuiView – Interfaces utilisateurs (CLI/GUI).
+10. [ ] Tests – Joueurs, commandes, logique de jeu.
