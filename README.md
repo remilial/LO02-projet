@@ -89,12 +89,12 @@ PocketImperium/
 
 ### Ali
 1. [ ] Command.java – Représentation des commandes.
-2. [ ] CommandType.java – Enum pour les types de commandes.
-3. [ ] Player.java – Classe abstraite des joueurs.
-4. [ ] RealPlayer.java – Joueur humain.
-5. [ ] BotPlayer.java – Joueur IA.
+2. [x] CommandType.java – Enum pour les types de commandes.
+3. [x] Player.java – Classe abstraite des joueurs.
+4. [x] RealPlayer.java – Joueur humain.
+5. [x] BotPlayer.java – Joueur IA.
 6. [ ] Game.java – Gestion du déroulement du jeu.
 7. [ ] Main.java – Lancement du jeu.
 8. [ ] GameController.java – Gestion des tours de jeu.
 9. [ ] ConsoleView / GuiView – Interfaces utilisateurs (CLI/GUI).
-10. [ ] Tests – Joueurs, commandes, logique de jeu.
+10. [ ] Tests – Joueurs, commandes, logiq ue de jeu.

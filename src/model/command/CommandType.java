@@ -1,4 +1,7 @@
 package model.command;
 
-public class CommandType {
+public enum CommandType {
+    EXPAND,
+    EXPLORE,
+    EXTERMINATE;
 }

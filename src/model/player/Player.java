@@ -1,106 +1,82 @@
 package model.player;
 
+import model.board.Hex;
 import model.board.Sector;
-import java.io.Serializable;
-import java.util.ArrayList;
+import model.board.Ship;
+import model.board.SystemType;
+
 import java.util.List;
 
-/**
- * Classe abstraite Player pour les joueurs humains et IA.
- * Gère les vaisseaux, le score et les secteurs contrôlés.
- */
-public abstract class Player implements Serializable {
+public abstract class Player {
     protected String name;
-    protected int score;
-    protected List<Sector> controlledSectors;
+    protected Sector currentSector;
+    protected Hex currentHex;
     protected int ships;
+    protected List<Ship> shipList;
 
-    // Nombre initial de vaisseaux
-    private static final int INITIAL_SHIPS = 15;
-
-    /**
-     * Constructeur de Player
-     * @param name Nom du joueur
-     */
     public Player(String name) {
         this.name = name;
-        this.score = 0;
-        this.controlledSectors = new ArrayList<>();
-        this.ships = INITIAL_SHIPS;
+        this.ships = 15;
+        this.currentSector = null;
+        this.currentHex = null;
+        this.shipList = new java.util.ArrayList<>();
     }
 
-    // Méthode abstraite pour que les joueurs prennent leur tour
-    public abstract void takeTurn();
-
-    // Déploie des vaisseaux dans un secteur donné
-    public void deployShips(Sector sector, int shipCount) {
-        if (sector == null || shipCount <= 0) {
-            throw new IllegalArgumentException("Secteur invalide ou nombre de vaisseaux incorrect.");
-        }
-        if (shipCount <= ships) {
-            ships -= shipCount;
-            sector.addShips(shipCount, this);
-            System.out.println(name + " déploie " + shipCount + " vaisseaux.");
-        } else {
-            System.out.println("Pas assez de vaisseaux disponibles.");
-        }
-    }
-
-    // Ajoute des points au score du joueur
-    public void addPoints(int points) {
-        this.score += points;
-    }
-
-    // Perte de vaisseaux après une bataille ou une phase exploit
-    public void loseShips(int count) {
-        ships = Math.max(0, ships - count);
-    }
-
-    // Capture d'un secteur
-    public void captureSector(Sector sector) {
-        if (!controlledSectors.contains(sector)) {
-            controlledSectors.add(sector);
-            sector.setController(this);
-            System.out.println(name + " prend le contrôle d'un secteur.");
-        }
-    }
-
-    // Relâchement d'un secteur
-    public void releaseSector(Sector sector) {
-        controlledSectors.remove(sector);
-        sector.setController(null);
-        System.out.println(name + " relâche un secteur.");
-    }
-
-    // Calcule le score total basé sur les secteurs contrôlés
-    public void calculateScore() {
-        int totalScore = 0;
-        for (Sector sector : controlledSectors) {
-            totalScore += sector.getSystemLevel().getValue();
-        }
-        this.score = totalScore;
-    }
-
-    // Getters
     public String getName() {
         return name;
     }
 
-    public int getScore() {
-        return score;
+    public Sector getCurrentSector() {
+        return currentSector;
     }
 
-    public List<Sector> getControlledSectors() {
-        return controlledSectors;
+    public void setCurrentSector(Sector sector) {
+        this.currentSector = sector;
+    }
+
+    public Hex getCurrentHex() {
+        return currentHex;
+    }
+
+    public void setCurrentHex(Hex hex) {
+        this.currentHex = hex;
+    }
+
+    public Ship getActiveShip() {
+        return shipList.isEmpty() ? null : shipList.get(0);
+    }
+
+    public void addShip(Ship ship) {
+        shipList.add(ship);
+        ships++;
+    }
+
+    public void removeShip(Ship ship) {
+        shipList.remove(ship);
+        ships--;
     }
 
     public int getShips() {
         return ships;
     }
 
-    @Override
-    public String toString() {
-        return "Joueur : " + name + ", Score : " + score + ", Vaisseaux : " + ships +
-                ", Secteurs contrôlés : " + controlledSectors.size();
+    public void moveShipToHex(Ship ship, Hex targetHex) {
+        if (currentHex != null) {
+            currentHex.setSystemType(SystemType.NONE);  // Liberate current hex
+        }
+        ship.setCurrentHex(targetHex);
+        targetHex.setSystemType(SystemType.LEVEL1);  // Mark new hex as occupied
+        setCurrentHex(targetHex);
+        System.out.println(name + " moved ship to hex " + targetHex.getId());
     }
+
+    public Ship getShip() {
+        if (shipList.isEmpty()) {
+            System.out.println("No ships available for " + name);
+            return null;
+        }
+        return shipList.get(0);  // Return the first available ship
+    }
+
+    public abstract void playTurn();
 }
