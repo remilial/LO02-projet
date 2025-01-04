@@ -93,4 +93,9 @@ public class Sector {
         }
         return neighbors;
     }
+
+    public void clearShips() {
+        ships.clear();
+    }
+
 }

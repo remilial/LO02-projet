@@ -73,15 +73,11 @@ public class Command {
                     neighbor.removeShip(defendingShip);
                 }
 
-                if (currentSector.getShips().size() > 0) {
-                    System.out.println(player.getName() + " has taken control of sector (" + neighbor.getX() + ", " + neighbor.getY() + ").");
-                    currentSector.moveShipToSector(invadingShip, neighbor);
-                } else {
-                    System.out.println("Both fleets were destroyed.");
-                }
+                System.out.println("Extermination occurred. Ships remaining: " + neighbor.getShips().size());
                 return;
             }
         }
         System.out.println("No enemy ships to exterminate.");
     }
+
 }

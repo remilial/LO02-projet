@@ -1,5 +1,8 @@
 package model.board;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
     private static Board instance;  // Singleton instance
     private Sector[][] sectors;
@@ -45,4 +48,21 @@ public class Board {
             System.out.println();
         }
     }
+
+    public List<Sector> getSectors() {
+        List<Sector> sectors = new ArrayList<>();
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                sectors.add(getSector(x, y));
+            }
+        }
+        return sectors;
+    }
+
+    public void resetBoard() {
+        for (Sector sector : getSectors()) {
+            sector.clearShips();  // Clear ships from each sector
+        }
+    }
+
 }
