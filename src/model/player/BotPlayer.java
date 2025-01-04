@@ -2,34 +2,26 @@ package model.player;
 
 import model.command.Command;
 import model.command.CommandType;
-import java.util.Random;
+import model.player.Player;
+import model.player.Strategy;
 
-public class BotPlayer extends Player {
-    private Random random;
+class BotPlayer extends Player {
+    private Strategy strategy;
 
-    public BotPlayer(String name) {
+    public BotPlayer(String name, Strategy strategy) {
         super(name);
-        this.random = new Random();
+        this.strategy = strategy;
+    }
+
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
     }
 
     @Override
     public void playTurn() {
         System.out.println(name + " (Bot) is taking a turn.");
-        CommandType[] commandOrder = determineCommandOrder();
-
-        for (CommandType commandType : commandOrder) {
-            Command command = new Command(commandType, this);
-            command.execute();
-        }
-    }
-
-    private CommandType[] determineCommandOrder() {
-        CommandType[] commands = CommandType.values();
-        CommandType[] selectedCommands = new CommandType[3];
-
-        for (int i = 0; i < 3; i++) {
-            selectedCommands[i] = commands[random.nextInt(commands.length)];
-        }
-        return selectedCommands;
+        CommandType commandType = strategy.determineNextCommand(this);
+        Command command = new Command(commandType, this);
+        command.execute();
     }
 }

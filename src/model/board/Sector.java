@@ -31,10 +31,13 @@ public class Sector {
     }
 
     public void addShip(Ship ship) {
-        if (!ships.contains(ship)) {  // Verifie que un ship n'est pas dÃ©jÃ  dans la liste
+        if (hasCapacityForShip()) {
             ships.add(ship);
+        } else {
+            throw new IllegalStateException("Sector capacity exceeded");
         }
     }
+
 
     public void removeShip(Ship ship) {
         ships.remove(ship);
@@ -74,5 +77,20 @@ public class Sector {
 
     public void setHexes(List<Hex> hexes) {
         this.hexes = hexes;
+    }
+
+    public List<Sector> getNeighbors() {
+        List<Sector> neighbors = new ArrayList<>();
+        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // Up, Down, Left, Right
+
+        for (int[] dir : directions) {
+            int newX = x + dir[0];
+            int newY = y + dir[1];
+
+            if (newX >= 0 && newX < 3 && newY >= 0 && newY < 3) {  // Ensure within board boundaries
+                neighbors.add(Board.getInstance().getSector(newX, newY));
+            }
+        }
+        return neighbors;
     }
 }

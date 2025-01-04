@@ -2,7 +2,6 @@ package model.command;
 
 import model.player.Player;
 import model.board.Sector;
-import model.board.Hex;
 import model.board.Ship;
 
 public class Command {
@@ -44,20 +43,45 @@ public class Command {
 
     private void explore() {
         System.out.println(player.getName() + " is exploring.");
-        Hex currentHex = player.getCurrentHex();
-        Ship ship = player.getActiveShip();
-        for (Hex hex : player.getCurrentSector().getHexes()) {
-            if (!hex.equals(currentHex)) {
-                player.moveShipToHex(ship, hex);
-                System.out.println(player.getName() + " moved to hex " + hex.getId());
+        for (Sector neighbor : player.getCurrentSector().getNeighbors()) {
+            if (neighbor.hasCapacityForShip()) {
+                Ship ship = player.getActiveShip();
+                player.getCurrentSector().moveShipToSector(ship, neighbor);
+                System.out.println(player.getName() + " moved to sector (" + neighbor.getX() + ", " + neighbor.getY() + ").");
                 return;
             }
         }
-        System.out.println("No available hexes to explore.");
+        System.out.println("No sectors available to explore.");
     }
 
     private void exterminate() {
         System.out.println(player.getName() + " is exterminating.");
-        // Add extermination logic here
+        Sector currentSector = player.getCurrentSector();
+
+        for (Sector neighbor : currentSector.getNeighbors()) {
+            if (!neighbor.getShips().isEmpty()) {
+                Ship invadingShip = player.getActiveShip();
+                Ship defendingShip = neighbor.getShips().get(0);
+
+                int invadingCount = currentSector.getShips().size();
+                int defendingCount = neighbor.getShips().size();
+
+                int destroyed = Math.min(invadingCount, defendingCount);
+
+                for (int i = 0; i < destroyed; i++) {
+                    currentSector.removeShip(invadingShip);
+                    neighbor.removeShip(defendingShip);
+                }
+
+                if (currentSector.getShips().size() > 0) {
+                    System.out.println(player.getName() + " has taken control of sector (" + neighbor.getX() + ", " + neighbor.getY() + ").");
+                    currentSector.moveShipToSector(invadingShip, neighbor);
+                } else {
+                    System.out.println("Both fleets were destroyed.");
+                }
+                return;
+            }
+        }
+        System.out.println("No enemy ships to exterminate.");
     }
 }
