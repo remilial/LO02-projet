@@ -78,5 +78,11 @@ public abstract class Player {
         return shipList.get(0);  // Return the first available ship
     }
 
+    public List<Ship> getShipList() {
+        return shipList;
+    }
+
+
+
     public abstract void playTurn();
 }

@@ -76,25 +76,30 @@ PocketImperium/
 ## Répartition des Tâches
 ### Rayan
 1. [ ] Board.java – Grille de jeu 3x3.
-2. [ ] Sector.java – Gestion des secteurs et vaisseaux.
+2. [x] Sector.java – Gestion des secteurs et vaisseaux.
 3. [ ] Hex.java – Tuiles hexagonales.
 4. [ ] SystemType.java – Enumération des niveaux.
 5. [ ] Ship.java – Gestion des vaisseaux.
-7. [ ] SaveManager.java – Sauvegarde/chargement de la partie.
-8. [ ] CommandHandler.java – Gestion de l'exécution des commandes (en lien avec Command).
-9. [ ] GameEventHandlers.java – Événements GUI.
-10. [ ] ConsoleView / GuiView – Interfaces utilisateurs.
-11. [ ] Tests – Secteurs, vaisseaux, sauvegarde.
+6. [ ] SaveManager.java – Sauvegarde/chargement de la partie.
+7. [ ] CommandHandler.java – Gestion de l'exécution des commandes (en lien avec Command).
+8. [ ] GameEventHandlers.java – Événements GUI.
+9. [ ] ConsoleView / GuiView – Interfaces utilisateurs.
+10. [ ] Tests – Secteurs, vaisseaux, sauvegarde.
 
 ### Ali
-1. [ ] Command.java – Représentation des commandes.
-2. [ ] CommandType.java – Enum pour les types de commandes.
-3. [ ] Player.java – Classe abstraite des joueurs.
-4. [ ] RealPlayer.java – Joueur humain.
-5. [ ] BotPlayer.java – Joueur IA.
-6. [ ] Game.java – Gestion du déroulement du jeu.
-7. [ ] Main.java – Lancement du jeu.
-8. [ ] GameController.java – Gestion des tours de jeu.
-9. [ ] ConsoleView / GuiView – Interfaces utilisateurs (CLI/GUI).
-10. [ ] Tests – Joueurs, commandes, logiq ue de jeu.
-11. [ ] Strategy.java – Stratégie IA pour BotPlayer.
+1. [x] Sector.java – Gestion des secteurs et vaisseaux.
+2. [ ] Command.java – Représentation des commandes.
+3. [ ] CommandType.java – Enum pour les types de commandes.
+4. [x] Player.java – Classe abstraite des joueurs.
+5. [x] RealPlayer.java – Joueur humain.
+6. [x] BotPlayer.java – Joueur IA.
+7. [] Game.java – Gestion du déroulement du jeu.
+8. [ ] Main.java – Lancement du jeu.
+9. [ ] GameController.java – Gestion des tours de jeu.
+10. [ ] ConsoleView / GuiView – Interfaces utilisateurs (CLI/GUI).
+11. [x] Test – Sector
+12. [x] Test – Player
+13. [x] Test – RealPlayer
+14. [x] Test – BotPlayer
+15. [x] Test – Strategy
+12. [ ] Strategy.java – Stratégie IA pour BotPlayer.

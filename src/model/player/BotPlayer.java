@@ -2,10 +2,9 @@ package model.player;
 
 import model.command.Command;
 import model.command.CommandType;
-import model.player.Player;
-import model.player.Strategy;
+import model.player.strategy.Strategy;
 
-class BotPlayer extends Player {
+public class BotPlayer extends Player {
     private Strategy strategy;
 
     public BotPlayer(String name, Strategy strategy) {
@@ -24,4 +23,9 @@ class BotPlayer extends Player {
         Command command = new Command(commandType, this);
         command.execute();
     }
+
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
 }
