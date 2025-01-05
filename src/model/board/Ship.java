@@ -58,4 +58,5 @@ public class Ship {
     public void setCurrentHex(Hex currentHex) {
         this.currentHex = currentHex;
     }
+
 }

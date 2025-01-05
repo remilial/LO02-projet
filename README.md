@@ -80,21 +80,38 @@ PocketImperium/
 3. [ ] Hex.java – Tuiles hexagonales.
 4. [ ] SystemType.java – Enumération des niveaux.
 5. [ ] Ship.java – Gestion des vaisseaux.
-6. [ ] Strategy.java – Stratégie IA pour BotPlayer.
-7. [ ] SaveManager.java – Sauvegarde/chargement de la partie.
-8. [ ] CommandHandler.java – Gestion de l'exécution des commandes (en lien avec Command).
-9. [ ] GameEventHandlers.java – Événements GUI.
-10. [ ] ConsoleView / GuiView – Interfaces utilisateurs.
-11. [ ] Tests – Secteurs, vaisseaux, sauvegarde.
+
 
 ### Ali
-1. [ ] Command.java – Représentation des commandes.
-2. [x] CommandType.java – Enum pour les types de commandes.
-3. [x] Player.java – Classe abstraite des joueurs.
-4. [x] RealPlayer.java – Joueur humain.
-5. [x] BotPlayer.java – Joueur IA.
-6. [ ] Game.java – Gestion du déroulement du jeu.
-7. [ ] Main.java – Lancement du jeu.
-8. [ ] GameController.java – Gestion des tours de jeu.
-9. [ ] ConsoleView / GuiView – Interfaces utilisateurs (CLI/GUI).
-10. [ ] Tests – Joueurs, commandes, logiq ue de jeu.
+Sector.java – Gestion des secteurs et vaisseaux.
+Command.java – Représentation des commandes.
+CommandType.java – Enum pour les types de commandes.
+Player.java – Classe abstraite des joueurs.
+RealPlayer.java – Joueur humain.
+BotPlayer.java – Joueur IA.
+Strategy.java – Stratégie IA pour BotPlayer
+Game.java – Gestion du déroulement du jeu.
+Test – Hex
+Test – Sector
+Test – Board
+Test – Command
+Test – Ship
+Test – Strategy
+Test – BotPlayer
+Test – RealPlayer
+Test – Player
+CommandHandler.java – Gestion de l'exécution des commandes (en lien avec Command).
+Test –  CommandHadler
+
+Test – Game
+Main.java – Lancement du jeu.
+
+
+
+### A faire
+SaveManager.java – Sauvegarde/chargement de la partie.
+
+GameEventHandlers.java – Événements GUI.
+ConsoleView / GuiView – Interfaces utilisateurs.
+
+GameController.java – Gestion des tours de jeu.

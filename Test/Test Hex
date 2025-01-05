@@ -1,0 +1,67 @@
+import model.board.Hex;
+import model.board.SystemType;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            testHexInitialization();
+            testHexSystemType();
+            testHexInvalidSystemType();
+            System.out.println("All Hex tests passed successfully.");
+        } catch (AssertionError e) {
+            System.err.println("Test failed: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 1. Test Hex Initialization
+    public static void testHexInitialization() {
+        System.out.println("Testing Hex Initialization...");
+
+        Hex hex1 = new Hex(1, SystemType.LEVEL1);
+        Hex hex2 = new Hex(2, SystemType.NONE);
+
+        assert hex1.getId() == 1 : "Hex ID initialization failed.";
+        assert hex1.getSystemType() == SystemType.LEVEL1 : "Hex1 system type should be LEVEL1.";
+
+        assert hex2.getId() == 2 : "Hex2 ID initialization failed.";
+        assert hex2.getSystemType() == SystemType.NONE : "Hex2 system type should be NONE.";
+
+        System.out.println("Hex initialization test passed.\n");
+    }
+
+    // 2. Test Changing System Type
+    public static void testHexSystemType() {
+        System.out.println("Testing Hex System Type...");
+
+        Hex hex = new Hex(3, SystemType.NONE);
+        assert hex.getSystemType() == SystemType.NONE : "Hex initial type should be NONE.";
+
+        hex.setSystemType(SystemType.LEVEL2);
+        assert hex.getSystemType() == SystemType.LEVEL2 : "Failed to update Hex to LEVEL2.";
+
+        hex.setSystemType(SystemType.LEVEL3);
+        assert hex.getSystemType() == SystemType.LEVEL3 : "Failed to update Hex to LEVEL3.";
+
+        System.out.println("Hex system type modification test passed.\n");
+    }
+
+    // 3. Test Invalid System Type Handling
+    public static void testHexInvalidSystemType() {
+        System.out.println("Testing Hex Invalid System Type...");
+
+        Hex hex = new Hex(4, SystemType.NONE);
+
+        try {
+            hex.setSystemType(null);  // Simulate invalid type
+            assert false : "Hex should not accept null system type.";
+        } catch (NullPointerException e) {
+            System.out.println("Correctly handled null system type.");
+        } catch (Exception e) {
+            System.err.println("Unexpected exception: " + e.getMessage());
+        }
+
+        System.out.println("Hex invalid system type test passed.\n");
+    }
+}

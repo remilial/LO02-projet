@@ -1,0 +1,70 @@
+import model.board.Sector;
+import model.board.Ship;
+import model.board.Hex;
+import model.player.RealPlayer;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            testShipInitialization();
+            testShipMovement();
+            testOwnerAssignment();
+            System.out.println("All Ship tests passed successfully.");
+        } catch (AssertionError e) {
+            System.err.println("Test failed: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 1. Test Ship Initialization
+    public static void testShipInitialization() {
+        System.out.println("Testing Ship Initialization...");
+
+        RealPlayer player = new RealPlayer("Player1");
+        Ship ship = new Ship("S1", "Blue", player);
+
+        assert ship.getId().equals("S1") : "Ship ID initialization failed.";
+        assert ship.getColor().equals("Blue") : "Ship color initialization failed.";
+        assert ship.getOwner() == player : "Ship owner assignment failed.";
+
+        System.out.println("Ship initialization test passed.\n");
+    }
+
+    // 2. Test Ship Movement
+    public static void testShipMovement() {
+        System.out.println("Testing Ship Movement...");
+
+        RealPlayer player = new RealPlayer("Player2");
+        Ship ship = new Ship("S2", "Red", player);
+        Sector sectorA = new Sector(0, 0);
+        Sector sectorB = new Sector(1, 0);
+
+        sectorA.addShip(ship);
+        ship.setCurrentSector(sectorA);
+        assert ship.getCurrentSector() == sectorA : "Ship initial sector assignment failed.";
+
+        player.moveShipToSector(ship, sectorB);
+        assert ship.getCurrentSector() == sectorB : "Ship failed to move to target sector.";
+
+        System.out.println("Ship movement test passed.\n");
+    }
+
+    // 3. Test Owner Assignment and Hex Movement
+    public static void testOwnerAssignment() {
+        System.out.println("Testing Ship Owner and Hex Movement...");
+
+        RealPlayer player = new RealPlayer("Player3");
+        Ship ship = new Ship("S3", "Green", player);
+        Hex hexA = new Hex(0, null);
+        Hex hexB = new Hex(1, null);
+
+        ship.setCurrentHex(hexA);
+        assert ship.getCurrentHex() == hexA : "Ship initial hex assignment failed.";
+
+        player.moveShipToHex(ship, hexB);
+        assert ship.getCurrentHex() == hexB : "Ship failed to move to target hex.";
+
+        System.out.println("Ship owner and hex movement test passed.\n");
+    }
+}
