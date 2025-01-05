@@ -1,0 +1,83 @@
+import model.board.Board;
+import model.board.Sector;
+import model.board.Ship;
+import model.board.SystemType;
+import model.player.BotPlayer;
+import model.player.strategy.RandomStrategy;
+import model.command.CommandType;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            testBotInitialization();
+            testBotTurnExecution();
+            testBotExploreAndExpand();
+            System.out.println("All BotPlayer tests passed successfully.");
+        } catch (AssertionError e) {
+            System.err.println("Test failed: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 1. Test Bot Initialization
+    public static void testBotInitialization() {
+        System.out.println("Testing Bot Initialization...");
+
+        BotPlayer bot = new BotPlayer("Bot1", new RandomStrategy());
+        assert bot.getName().equals("Bot1") : "Bot name initialization failed.";
+        assert bot.getStrategy() instanceof RandomStrategy : "Bot strategy initialization failed.";
+
+        System.out.println("Bot initialization test passed.\n");
+    }
+
+    // 2. Test Bot Turn Execution
+    public static void testBotTurnExecution() {
+        System.out.println("Testing Bot Turn Execution...");
+
+        Board board = Board.getInstance();
+        board.resetBoard();  // Ensure a clean state
+
+        BotPlayer bot = new BotPlayer("Bot1", new RandomStrategy());
+        Sector startingSector = board.getSector(0, 0);
+        startingSector.setSystemType(SystemType.LEVEL2);
+        bot.setCurrentSector(startingSector);
+
+        Ship ship = new Ship("S1", "Blue", bot);
+        startingSector.addShip(ship);
+        bot.addShip(ship);
+
+        bot.playTurn();
+
+        assert !startingSector.getShips().isEmpty() : "Bot failed to expand or move.";
+        System.out.println("Bot turn execution test passed.\n");
+    }
+
+    // 3. Test Bot Explore and Expand Logic
+    public static void testBotExploreAndExpand() {
+        System.out.println("Testing Bot Explore and Expand...");
+
+        Board board = Board.getInstance();
+        board.resetBoard();
+
+        BotPlayer bot = new BotPlayer("Bot2", new RandomStrategy());
+        Sector sectorA = board.getSector(0, 0);
+        Sector sectorB = board.getSector(1, 0);
+
+        sectorA.setSystemType(SystemType.LEVEL1);
+        sectorB.setSystemType(SystemType.LEVEL1);
+
+        bot.setCurrentSector(sectorA);
+        Ship ship = new Ship("S2", "Blue", bot);
+        sectorA.addShip(ship);
+        bot.addShip(ship);
+
+        CommandType command = CommandType.EXPLORE;
+        bot.getStrategy().execute(bot, command);
+
+        assert sectorA.getShips().size() == 0 : "Bot failed to explore.";
+        assert sectorB.getShips().size() == 1 : "Bot failed to move ship to the next sector.";
+
+        System.out.println("Bot explore and expand test passed.\n");
+    }
+}

@@ -14,70 +14,66 @@ public class Command {
     }
 
     public void execute() {
+        executeWithEfficiency(1.0);  // Default to full efficiency
+    }
+
+    public void executeWithEfficiency(double efficiency) {
         switch (type) {
             case EXPAND:
-                expand();
+                expand(efficiency);
                 break;
             case EXPLORE:
-                explore();
+                explore(efficiency);
                 break;
             case EXTERMINATE:
-                exterminate();
+                exterminate(efficiency);
                 break;
-            default:
-                System.out.println("Unknown command.");
         }
     }
 
-    private void expand() {
-        System.out.println(player.getName() + " is expanding.");
-        Ship newShip = new Ship("S" + (player.getShips() + 1), player.getName(), player);
-        if (player.getCurrentSector() != null && player.getCurrentSector().hasCapacityForShip()) {
-            player.getCurrentSector().addShip(newShip);
-            player.addShip(newShip);
-            System.out.println("A new ship has been added to sector (" + player.getCurrentSector().getX() + ", " + player.getCurrentSector().getY() + ").");
-        } else {
-            System.out.println("No capacity to expand in the current sector.");
-        }
-    }
-
-    private void explore() {
-        System.out.println(player.getName() + " is exploring.");
-        for (Sector neighbor : player.getCurrentSector().getNeighbors()) {
-            if (neighbor.hasCapacityForShip()) {
-                Ship ship = player.getActiveShip();
-                player.getCurrentSector().moveShipToSector(ship, neighbor);
-                System.out.println(player.getName() + " moved to sector (" + neighbor.getX() + ", " + neighbor.getY() + ").");
-                return;
-            }
-        }
-        System.out.println("No sectors available to explore.");
-    }
-
-    private void exterminate() {
-        System.out.println(player.getName() + " is exterminating.");
+    private void expand(double efficiency) {
+        int shipsToAdd = calculateUnitsToAdd(3, efficiency);
         Sector currentSector = player.getCurrentSector();
-
-        for (Sector neighbor : currentSector.getNeighbors()) {
-            if (!neighbor.getShips().isEmpty()) {
-                Ship invadingShip = player.getActiveShip();
-                Ship defendingShip = neighbor.getShips().get(0);
-
-                int invadingCount = currentSector.getShips().size();
-                int defendingCount = neighbor.getShips().size();
-
-                int destroyed = Math.min(invadingCount, defendingCount);
-
-                for (int i = 0; i < destroyed; i++) {
-                    currentSector.removeShip(invadingShip);
-                    neighbor.removeShip(defendingShip);
-                }
-
-                System.out.println("Extermination occurred. Ships remaining: " + neighbor.getShips().size());
-                return;
+        for (int i = 0; i < shipsToAdd; i++) {
+            if (currentSector.hasCapacityForShip()) {
+                Ship ship = new Ship("Ship" + (player.getShips() + 1), "Blue", player);
+                currentSector.addShip(ship);
+                player.addShip(ship);
+            } else {
+                System.out.println("Sector capacity exceeded for expansion.");
+                break;
             }
         }
-        System.out.println("No enemy ships to exterminate.");
+        System.out.println(player.getName() + " added " + shipsToAdd + " ships.");
     }
 
+    private void explore(double efficiency) {
+        int fleetsToMove = calculateUnitsToAdd(3, efficiency);
+        Sector currentSector = player.getCurrentSector();
+        for (int i = 0; i < fleetsToMove; i++) {
+            if (!currentSector.getNeighbors().isEmpty()) {
+                Sector targetSector = currentSector.getNeighbors().get(0);  // Simplified for now
+                player.moveShipToSector(player.getShipList().get(0), targetSector);
+                System.out.println(player.getName() + " moved a fleet to sector (" + targetSector.getX() + ", " + targetSector.getY() + ").");
+            }
+        }
+    }
+
+    private void exterminate(double efficiency) {
+        int systemsToInvade = calculateUnitsToAdd(3, efficiency);
+        Sector currentSector = player.getCurrentSector();
+        for (int i = 0; i < systemsToInvade; i++) {
+            if (!currentSector.getShips().isEmpty()) {
+                Ship enemyShip = currentSector.getShips().get(0);
+                if (enemyShip.getOwner() != player) {
+                    currentSector.removeShip(enemyShip);
+                    System.out.println(player.getName() + " invaded and removed an enemy ship.");
+                }
+            }
+        }
+    }
+
+    private int calculateUnitsToAdd(int maxUnits, double efficiency) {
+        return (int) Math.ceil(maxUnits * efficiency);  // Ensure rounding up for fairness
+    }
 }

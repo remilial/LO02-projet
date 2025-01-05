@@ -1,0 +1,109 @@
+import model.board.Sector;
+import model.board.Ship;
+import model.board.SystemType;
+import model.command.Command;
+import model.command.CommandType;
+import model.player.RealPlayer;
+import model.player.BotPlayer;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            testExpandCommand();
+            testExploreCommand();
+            testExterminateCommand();
+            testEfficiencyScaling();
+            System.out.println("All Command tests passed successfully.");
+        } catch (AssertionError e) {
+            System.err.println("Test failed: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 1. Test Expand Command
+    public static void testExpandCommand() {
+        System.out.println("Testing Expand Command...");
+
+        Sector sector = new Sector(0, 0);
+        sector.setSystemType(SystemType.LEVEL2);  // Capacity for 2 ships
+
+        RealPlayer player = new RealPlayer("Player1");
+        player.setCurrentSector(sector);
+
+        Command expandCommand = new Command(CommandType.EXPAND, player);
+        expandCommand.execute();
+
+        assert sector.getShips().size() == 2 : "Expand command failed to add ships.";
+
+        System.out.println("Expand command test passed.\n");
+    }
+
+    // 2. Test Explore Command
+    public static void testExploreCommand() {
+        System.out.println("Testing Explore Command...");
+
+        Sector startingSector = new Sector(0, 0);
+        Sector targetSector = new Sector(1, 0);
+        startingSector.setSystemType(SystemType.LEVEL1);  // Capacity for 1 ship
+        targetSector.setSystemType(SystemType.LEVEL1);
+
+        RealPlayer player = new RealPlayer("Player2");
+        Ship ship = new Ship("S1", "Blue", player);
+        startingSector.addShip(ship);
+        player.setCurrentSector(startingSector);
+        player.addShip(ship);
+
+        Command exploreCommand = new Command(CommandType.EXPLORE, player);
+        exploreCommand.execute();
+
+        assert startingSector.getShips().isEmpty() : "Ship not removed from starting sector.";
+        assert targetSector.getShips().size() == 1 : "Ship not moved to target sector.";
+
+        System.out.println("Explore command test passed.\n");
+    }
+
+    // 3. Test Exterminate Command
+    public static void testExterminateCommand() {
+        System.out.println("Testing Exterminate Command...");
+
+        Sector sector = new Sector(1, 1);
+        sector.setSystemType(SystemType.LEVEL3);  // Increase capacity to avoid overflow
+
+        RealPlayer player1 = new RealPlayer("Player1");
+        BotPlayer player2 = new BotPlayer("Bot1", null);
+
+        Ship playerShip = new Ship("S1", "Blue", player1);
+        Ship enemyShip = new Ship("E1", "Red", player2);
+
+        sector.addShip(playerShip);
+        sector.addShip(enemyShip);
+        player1.setCurrentSector(sector);
+
+        Command exterminateCommand = new Command(CommandType.EXTERMINATE, player1);
+        exterminateCommand.execute();
+
+        assert sector.getShips().size() == 1 : "Exterminate command failed to remove enemy ship.";
+        assert sector.getShips().get(0).getOwner() == player1 : "Remaining ship does not belong to player1.";
+
+        System.out.println("Exterminate command test passed.\n");
+    }
+
+    // 4. Test Efficiency Scaling
+    public static void testEfficiencyScaling() {
+        System.out.println("Testing Efficiency Scaling...");
+
+        Sector sector = new Sector(0, 0);
+        sector.setSystemType(SystemType.LEVEL3);  // Capacity for 3 ships
+
+        RealPlayer player = new RealPlayer("Player3");
+        player.setCurrentSector(sector);
+
+        Command expandCommand = new Command(CommandType.EXPAND, player);
+        expandCommand.executeWithEfficiency(0.5);  // Should add half the ships
+
+        assert sector.getShips().size() == 2 : "Efficiency scaling failed for expand command.";
+
+        System.out.println("Efficiency scaling test passed.\n");
+    }
+}

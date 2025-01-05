@@ -31,12 +31,12 @@ public class Board {
     }
 
     // Get a sector by coordinates
+    // Board.java
     public Sector getSector(int x, int y) {
-        if (x >= 0 && x < 3 && y >= 0 && y < 3) {
-            return sectors[x][y];
-        } else {
-            throw new IllegalArgumentException("Invalid coordinates");
+        if (x < 0 || y < 0 || x >= 3 || y >= 3) {
+            return null;  // Return null for invalid coordinates instead of throwing an exception
         }
+        return sectors[x][y];
     }
 
     // Display the board

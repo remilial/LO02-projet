@@ -8,10 +8,7 @@ import model.command.Command;
 import model.command.CommandType;
 import model.player.strategy.RandomStrategy;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
     private static Game instance;  // Singleton instance
@@ -26,7 +23,6 @@ public class Game {
         board = Board.getInstance();
         currentTurn = 0;
         isGameOver = false;
-        initializeGame();
     }
 
     // Singleton instance retrieval
@@ -37,24 +33,6 @@ public class Game {
         return instance;
     }
 
-    // Initialize the game with 3 players (1 real, 2 bots)
-    private void initializeGame() {
-        players.add(new RealPlayer("Player1"));
-        players.add(new BotPlayer("Bot1", new RandomStrategy()));
-        players.add(new BotPlayer("Bot2", new RandomStrategy()));
-
-        // Assign sectors and ships to players
-        for (Player player : players) {
-            Sector startingSector = board.getSector(players.indexOf(player), 0);
-            startingSector.setSystemType(SystemType.LEVEL1);
-            player.setCurrentSector(startingSector);
-
-            Ship ship = new Ship("S" + (player.getShips() + 1), "Blue", player);
-            startingSector.addShip(ship);
-            player.addShip(ship);
-        }
-    }
-
     // Game loop
     public void startGame() {
         System.out.println("Starting Pocket Imperium Game...");
@@ -62,9 +40,7 @@ public class Game {
         int rounds = 0;
 
         while (!isGameOver && rounds < maxRounds) {
-            for (Player player : players) {
-                playTurn(player);
-            }
+            playRound();
             rounds++;
             checkFleetElimination();
         }
@@ -77,49 +53,72 @@ public class Game {
         }
     }
 
-    // Manage player turns (execute all three commands)
-    public void playTurn(Player player) {
-        System.out.println(player.getName() + "'s turn");
-
-        List<CommandType> commandOrder = chooseCommandOrder(player);
-        for (CommandType command : commandOrder) {
-            new Command(command, player).execute();
+    // Execute a full round where each player chooses the full order of commands
+    public void playRound() {
+        Map<Player, List<CommandType>> chosenCommands = new HashMap<>();
+        for (Player player : players) {
+            List<CommandType> commands = chooseCommandOrder(player);
+            chosenCommands.put(player, commands);
         }
-        currentTurn = (currentTurn + 1) % players.size();
+
+        // Execute each command phase in order (Expand -> Explore -> Exterminate)
+        for (int i = 0; i < 3; i++) {
+            Map<CommandType, List<Player>> groupedCommands = new HashMap<>();
+
+            // Group players by their chosen command
+            for (Map.Entry<Player, List<CommandType>> entry : chosenCommands.entrySet()) {
+                CommandType commandType = entry.getValue().get(i);
+                groupedCommands.computeIfAbsent(commandType, k -> new ArrayList<>()).add(entry.getKey());
+            }
+
+            // Execute commands, applying numerical efficiency (1, 2, 3 based on order)
+            for (Map.Entry<CommandType, List<Player>> group : groupedCommands.entrySet()) {
+                int efficiency = Math.max(1, 4 - group.getValue().size()); // 3 for 1 player, 2 for 2 players, 1 for 3 players
+                for (Player player : group.getValue()) {
+                    Command command = new Command(group.getKey(), player);
+                    command.executeWithEfficiency(efficiency);
+                }
+            }
+        }
     }
 
-    // Allow players to choose command order (RealPlayer) or randomize for bots
+    // Allow players to choose the full command order
     private List<CommandType> chooseCommandOrder(Player player) {
         if (player instanceof RealPlayer) {
             if (Boolean.getBoolean("test.mode")) {
-                // Simulate a default order during tests
                 return List.of(CommandType.EXPAND, CommandType.EXPLORE, CommandType.EXTERMINATE);
             }
 
-            Scanner scanner = new Scanner(System.in);
-            List<CommandType> commandOrder = new ArrayList<>();
+            try (Scanner scanner = new Scanner(System.in)) {
+                List<CommandType> commandOrder = new ArrayList<>();
 
-            System.out.println("Choose the order of commands (1-3, no repeats):");
-            System.out.println("[1] Expand, [2] Explore, [3] Exterminate");
+                System.out.println(player.getName() + ", choisissez l'ordre des commandes (1-3, sans répétition) :");
+                System.out.println("[1] Expand, [2] Explore, [3] Exterminate");
 
-            while (commandOrder.size() < 3) {
-                int choice = scanner.nextInt();
-                if (choice >= 1 && choice <= 3) {
-                    CommandType command = CommandType.values()[choice - 1];
-                    if (!commandOrder.contains(command)) {
-                        commandOrder.add(command);
-                    } else {
-                        System.out.println("Command already chosen, pick another.");
+                while (commandOrder.size() < 3) {
+                    try {
+                        int choice = scanner.nextInt();
+                        if (choice >= 1 && choice <= 3) {
+                            CommandType command = CommandType.values()[choice - 1];
+                            if (!commandOrder.contains(command)) {
+                                commandOrder.add(command);
+                            } else {
+                                System.out.println("Commande déjà choisie. Choisissez-en une autre.");
+                            }
+                        } else {
+                            System.out.println("Choix invalide. Veuillez entrer 1, 2 ou 3.");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Entrée invalide. Veuillez entrer un nombre.");
+                        scanner.nextLine();  // Clear invalid input
                     }
-                } else {
-                    System.out.println("Invalid choice. Pick 1, 2, or 3.");
                 }
+                return commandOrder;
             }
-            return commandOrder;
         } else {
-            List<CommandType> commandOrder = new ArrayList<>(List.of(CommandType.EXPAND, CommandType.EXPLORE, CommandType.EXTERMINATE));
-            Collections.shuffle(commandOrder);  // Randomize for bots
-            return commandOrder;
+            List<CommandType> commands = new ArrayList<>(List.of(CommandType.EXPAND, CommandType.EXPLORE, CommandType.EXTERMINATE));
+            Collections.shuffle(commands);
+            return commands;
         }
     }
 
@@ -135,7 +134,7 @@ public class Game {
                 }
             }
             if (totalShips == 0) {
-                System.out.println(player.getName() + "'s fleet has been eliminated!");
+                System.out.println(player.getName() + " a perdu sa flotte. La partie est terminée !");
                 isGameOver = true;
                 return;
             }
@@ -168,15 +167,48 @@ public class Game {
     private int calculateScore(Player player) {
         int score = 0;
         for (Sector sector : board.getSectors()) {
-            if (!sector.getShips().isEmpty() && sector.getShips().get(0).getOwner() == player) {
-                score += sector.getSystemType().ordinal() + 1;
+            for (Ship ship : sector.getShips()) {
+                if (ship.getOwner() == player) {
+                    score += sector.getSystemType().ordinal() + 1;
+                }
             }
         }
         return score;
     }
 
-    // Getter to check if the game is over (for testing)
-    public boolean isGameOver() {
-        return isGameOver;
+    // Initialize players and set up the game
+    public void initializePlayers(List<Player> playerList) {
+        this.players = playerList;
+        board.resetBoard();
+
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            Sector startingSector = board.getSector(i, 0);
+
+            startingSector.setSystemType(SystemType.LEVEL1);
+            for (int j = 0; j < 15; j++) {
+                if (startingSector.hasCapacityForShip()) {
+                    Ship ship = new Ship("S" + (j + 1), "Blue", player);
+                    startingSector.addShip(ship);
+                    player.addShip(ship);
+                } else {
+                    System.out.println("Sector full. Reallocating ship for " + player.getName());
+                    Sector fallback = findAvailableSector();
+                    fallback.addShip(new Ship("S" + (j + 1), "Blue", player));
+                }
+            }
+            player.setCurrentSector(startingSector);
+        }
+        System.out.println("Les joueurs ont été initialisés avec succès !");
+    }
+
+    // Find an available sector for overflow
+    private Sector findAvailableSector() {
+        for (Sector sector : board.getSectors()) {
+            if (sector.hasCapacityForShip()) {
+                return sector;
+            }
+        }
+        throw new IllegalStateException("No available sectors for overflow.");
     }
 }

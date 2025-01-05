@@ -10,7 +10,6 @@ import java.util.List;
 public abstract class Player {
     protected String name;
     protected Sector currentSector;
-    protected Hex currentHex;
     protected int ships;
     protected List<Ship> shipList;
 
@@ -18,7 +17,6 @@ public abstract class Player {
         this.name = name;
         this.ships = 15;
         this.currentSector = null;
-        this.currentHex = null;
         this.shipList = new java.util.ArrayList<>();
     }
 
@@ -32,14 +30,6 @@ public abstract class Player {
 
     public void setCurrentSector(Sector sector) {
         this.currentSector = sector;
-    }
-
-    public Hex getCurrentHex() {
-        return currentHex;
-    }
-
-    public void setCurrentHex(Hex hex) {
-        this.currentHex = hex;
     }
 
     public Ship getActiveShip() {
@@ -60,29 +50,44 @@ public abstract class Player {
         return ships;
     }
 
-    public void moveShipToHex(Ship ship, Hex targetHex) {
-        if (currentHex != null) {
-            currentHex.setSystemType(SystemType.NONE);  // Liberate current hex
-        }
-        ship.setCurrentHex(targetHex);
-        targetHex.setSystemType(SystemType.LEVEL1);  // Mark new hex as occupied
-        setCurrentHex(targetHex);
-        System.out.println(name + " moved ship to hex " + targetHex.getId());
-    }
-
-    public Ship getShip() {
-        if (shipList.isEmpty()) {
-            System.out.println("No ships available for " + name);
-            return null;
-        }
-        return shipList.get(0);  // Return the first available ship
-    }
-
     public List<Ship> getShipList() {
         return shipList;
     }
 
+    public void moveShipToSector(Ship ship, Sector targetSector) {
+        if (currentSector != null && currentSector.getShips().contains(ship)) {
+            currentSector.removeShip(ship);
+            targetSector.addShip(ship);
+            ship.setCurrentSector(targetSector);
+            setCurrentSector(targetSector);
+            System.out.println(name + " moved ship to sector (" + targetSector.getX() + ", " + targetSector.getY() + ").");
+        } else {
+            System.out.println("Move failed: Ship not in the current sector.");
+        }
+    }
 
+    public void moveShipToHex(Ship ship, Hex targetHex) {
+        if (ship == null) {
+            System.out.println("No ship selected to move.");
+            return;
+        }
+
+        // Check if the ship is currently in a hex
+        Hex currentHex = ship.getCurrentHex();
+
+        // Clear the current hex if occupied
+        if (currentHex != null) {
+            currentHex.setSystemType(SystemType.NONE);  // Mark current hex as empty
+            System.out.println(ship.getId() + " leaves hex " + currentHex.getId());
+        }
+
+        // Move the ship to the target hex
+        ship.setCurrentHex(targetHex);
+        targetHex.setSystemType(SystemType.LEVEL1);  // Mark the target hex as occupied
+        ship.setCurrentHex(targetHex);
+
+        System.out.println(ship.getId() + " moves to hex " + targetHex.getId());
+    }
 
     public abstract void playTurn();
 }
