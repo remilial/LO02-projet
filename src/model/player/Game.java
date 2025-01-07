@@ -1,23 +1,23 @@
 package model.player;
 
+import java.io.Serializable;
 import model.board.Board;
 import model.board.Ship;
 import model.board.Sector;
 import model.board.SystemType;
 import model.command.Command;
 import model.command.CommandType;
-import model.player.strategy.RandomStrategy;
-
 import java.util.*;
 
-public class Game {
-    private static Game instance;  // Singleton instance
+public class Game implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private static Game instance;
     private List<Player> players;
     private int currentTurn;
     private boolean isGameOver;
     private Board board;
 
-    // Private constructor to enforce singleton
     private Game() {
         players = new ArrayList<>();
         board = Board.getInstance();
@@ -25,7 +25,6 @@ public class Game {
         isGameOver = false;
     }
 
-    // Singleton instance retrieval
     public static Game getInstance() {
         if (instance == null) {
             instance = new Game();
@@ -55,6 +54,7 @@ public class Game {
 
     // Execute a full round where each player chooses the full order of commands
     public void playRound() {
+        Board.getInstance().displayBoard();  // Show board after each round
         Map<Player, List<CommandType>> chosenCommands = new HashMap<>();
         for (Player player : players) {
             List<CommandType> commands = chooseCommandOrder(player);

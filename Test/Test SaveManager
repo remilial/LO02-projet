@@ -1,0 +1,46 @@
+import controller.player.GameController;
+import model.player.Game;
+import controller.player.SaveManager;
+
+public class Main{
+
+    public static void main(String[] args) {
+        GameController controller = new GameController();
+        Game game = Game.getInstance();
+        SaveManager saveManager = controller.getSaveManager();  // Access via method
+
+        System.out.println("===== SaveManager Testing =====");
+
+        // 1. Test Save Functionality
+        System.out.println("Testing Save Game...");
+        saveManager.saveGame(game);
+        System.out.println("Save complete.");
+
+        // 2. Test Load Functionality
+        System.out.println("\nTesting Load Game...");
+        Game loadedGame = saveManager.loadGame();
+        if (loadedGame != null) {
+            System.out.println("Game loaded successfully.");
+        } else {
+            System.out.println("Failed to load game.");
+        }
+
+        // 3. Test Delete Save
+        System.out.println("\nTesting Delete Save...");
+        if (saveManager.saveExists()) {
+            saveManager.deleteSave();
+            System.out.println("Save deleted successfully.");
+        } else {
+            System.out.println("No save to delete.");
+        }
+
+        // 4. Test Load After Deletion
+        System.out.println("\nTesting Load After Deletion...");
+        Game afterDeleteLoad = saveManager.loadGame();
+        if (afterDeleteLoad == null) {
+            System.out.println("Correct: No save found after deletion.");
+        } else {
+            System.out.println("Error: Save loaded after deletion.");
+        }
+    }
+}

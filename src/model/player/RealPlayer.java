@@ -3,8 +3,9 @@ package model.player;
 import model.command.Command;
 import model.command.CommandType;
 import java.util.Scanner;
+import java.io.Serializable;
 
-public class RealPlayer extends Player {
+public class RealPlayer extends Player implements Serializable {
     private Scanner scanner;
 
     public RealPlayer(String name) {

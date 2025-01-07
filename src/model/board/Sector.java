@@ -3,8 +3,9 @@ package model.board;
 import java.util.ArrayList;
 import java.util.List;
 import model.player.Player;
+import java.io.Serializable;
 
-public class Sector {
+public class Sector implements Serializable {
     private final int x, y;
     private SystemType systemType;
     private List<Ship> ships;

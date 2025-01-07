@@ -3,8 +3,9 @@ package model.command;
 import model.player.Player;
 import model.board.Sector;
 import model.board.Ship;
+import java.io.Serializable;
 
-public class Command {
+public class Command implements Serializable {
     private CommandType type;
     private Player player;
 

@@ -4,10 +4,11 @@ import model.board.Hex;
 import model.board.Sector;
 import model.board.Ship;
 import model.board.SystemType;
+import java.io.Serializable;
 
 import java.util.List;
 
-public abstract class Player {
+public abstract class Player implements Serializable {
     protected String name;
     protected Sector currentSector;
     protected int ships;

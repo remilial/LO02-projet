@@ -3,8 +3,9 @@ package model.player;
 import model.command.Command;
 import model.command.CommandType;
 import model.player.strategy.Strategy;
+import java.io.Serializable;
 
-public class BotPlayer extends Player {
+public class BotPlayer extends Player implements Serializable {
     private Strategy strategy;
 
     public BotPlayer(String name, Strategy strategy) {

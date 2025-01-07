@@ -1,8 +1,9 @@
 package model.board;
 
 import model.player.Player;
+import java.io.Serializable;
 
-public class Ship {
+public class Ship implements Serializable {
     private String id;
     private String color;
     private boolean isActive;
