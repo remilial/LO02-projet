@@ -1,17 +1,20 @@
 package model.board;
+
 import java.io.Serializable;
 
 public class Hex implements Serializable {
     private final int id;
     private SystemType systemType;
-    private Ship ship;  // Ship present in this hex
+    private boolean occupied;
 
+    // Constructeur
     public Hex(int id, SystemType systemType) {
         this.id = id;
         this.systemType = systemType;
-        this.ship = null;  // No ship initially
+        this.occupied = false;
     }
 
+    // Accesseurs (Getters)
     public int getId() {
         return id;
     }
@@ -20,22 +23,30 @@ public class Hex implements Serializable {
         return systemType;
     }
 
+    public boolean isOccupied() {
+        return occupied;
+    }
+
+    // Modificateurs (Setters)
     public void setSystemType(SystemType systemType) {
         this.systemType = systemType;
     }
 
-    // Check if the hex has a ship
-    public boolean hasShip() {
-        return ship != null;
+    public void occupy() {
+        this.occupied = true;
     }
 
+    public void vacate() {
+        this.occupied = false;
+    }
+
+    // Affichage d'informations pour débuggage
     @Override
     public String toString() {
-        return switch (systemType) {
-            case LEVEL1 -> "1";
-            case LEVEL2 -> "2";
-            case LEVEL3 -> "3";
-            default -> " ";
-        };
+        return "Hex{" +
+                "id=" + id +
+                ", systemType=" + systemType +
+                ", occupied=" + occupied +
+                '}';
     }
 }

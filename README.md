@@ -75,44 +75,51 @@ PocketImperium/
 
 ## Répartition des Tâches
 ### Rayan
-1. [ ] Board.java – Grille de jeu 3x3.
-2. [ ] Sector.java – Gestion des secteurs et vaisseaux.
-3. [ ] Hex.java – Tuiles hexagonales.
-4. [ ] SystemType.java – Enumération des niveaux.
-5. [ ] Ship.java – Gestion des vaisseaux.
+
+SystemType.java – Enumération des niveaux.
+Ship.java – Gestion des vaisseaux.
 
 
 ### Ali
-1. [ ] Sector.java – Gestion des secteurs et vaisseaux.
-2. [ ] Command.java – Représentation des commandes.
-3. [ ] CommandType.java – Enum pour les types de commandes.
-4. [ ] Player.java – Classe abstraite des joueurs.
-5. [ ] RealPlayer.java – Joueur humain.
-6. [ ] BotPlayer.java – Joueur IA.
-7. [ ] Strategy.java – Stratégie IA pour BotPlayer
-8. [ ] Game.java – Gestion du déroulement du jeu.
-9. [ ] Test – Hex
-10. [ ] Test – Sector
-11. [ ] Test – Board
-12. [ ] Test – Command
-13. [ ] Test – Ship
-14. [ ] Test – Strategy
-15. [ ] Test – BotPlayer
-16. [ ] Test – RealPlayer
-17. [ ] Test – Player
-18. [ ] CommandHandler.java – Gestion de l'exécution des commandes (en lien avec Command).
-19. [ ] Test –  CommandHandler
-20. [ ] ConsoleView – Interfaces utilisateurs.
-21. [ ] GameController.java – Gestion des tours de jeu.
-22. [ ] SaveManager.java – Sauvegarde/chargement de la partie.
-23. [ ] Test –  CommandHandler
+Hex.java – Tuiles hexagonales.
+Test – Hex
+Sector.java – Gestion des secteurs et vaisseaux.
+Test – Sector
+Board.java – Grille de jeu 3x3.
+Test – Board
+
+Sector.java – Gestion des secteurs et vaisseaux.
+Command.java – Représentation des commandes.
+CommandType.java – Enum pour les types de commandes.
+Player.java – Classe abstraite des joueurs.
+RealPlayer.java – Joueur humain.
+BotPlayer.java – Joueur IA.
+Strategy.java – Stratégie IA pour BotPlayer
+Game.java – Gestion du déroulement du jeu.
+
+
+
+Test – Command
+Test – Ship
+Test – Strategy
+Test – BotPlayer
+Test – RealPlayer
+Test – Player
+CommandHandler.java – Gestion de l'exécution des commandes (en lien avec Command).
+Test –  CommandHandler
+ConsoleView – Interfaces utilisateurs.
+GameController.java – Gestion des tours de jeu.
+SaveManager.java – Sauvegarde/chargement de la partie.
+Test –  CommandHandler
 
 
 
 
 
 ### A faire
-GameEventHandlers.java – Événements GUI.
-GuiView – Interfaces utilisateurs.
+//Sauvegarde ne marche pas pour le moment
 Test – Game
 Main.java – Lancement du jeu.
+// Optionel
+GameEventHandlers.java – Événements GUI.
+GuiView – Interfaces utilisateurs.

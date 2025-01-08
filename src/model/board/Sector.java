@@ -1,61 +1,84 @@
 package model.board;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import model.player.Player;
-import java.io.Serializable;
+import java.util.Random;
 
 public class Sector implements Serializable {
     private final int x, y;
-    private SystemType systemType;
-    private List<Ship> ships;
     private List<Hex> hexes;
+    private static final Random random = new Random();
+    private boolean isTriPrime;  // Indique si le secteur est Tri-Prime (Niveau 3)
 
+    // Constructeur
     public Sector(int x, int y) {
         this.x = x;
         this.y = y;
-        this.systemType = SystemType.NONE;
-        this.ships = new ArrayList<>();
         this.hexes = new ArrayList<>();
+        this.isTriPrime = (x == 1 && y == 1);  // Si le secteur est au centre (1,1), c'est Tri-Prime
         initializeHexes();
     }
 
+    // Initialise les hexagones dans le secteur
     private void initializeHexes() {
-        // Pour chaque secteur on peut initialiser des hexes specifiques
-        for (int i = 0; i < 6; i++) {
-            hexes.add(new Hex(i, SystemType.NONE));
-        }
-    }
+        hexes.clear();  // Réinitialise la liste d'hex
 
-    public String getInfo() {
-        return "Sector (" + x + ", " + y + ") - " + systemType + " - Ships: " + ships.size();
-    }
-
-    public void addShip(Ship ship) {
-        if (hasCapacityForShip()) {
-            ships.add(ship);
+        // Si le secteur est Tri-Prime, ajoute un seul hex de niveau 3
+        if (isTriPrime) {
+            hexes.add(new Hex(0, SystemType.LEVEL3));
         } else {
-            throw new IllegalStateException("Sector capacity exceeded");
+            // Crée 6 hexagones
+            for (int i = 0; i < 6; i++) {
+                hexes.add(new Hex(i, SystemType.NONE));
+            }
+
+            // Sélectionne aléatoirement un hex pour le niveau 2
+            int level2Index = random.nextInt(6);
+            hexes.get(level2Index).setSystemType(SystemType.LEVEL2);
+
+            // Sélectionne deux hexes différents pour le niveau 1
+            int level1Index1, level1Index2;
+            do {
+                level1Index1 = random.nextInt(6);
+            } while (level1Index1 == level2Index);  // Différent de l'hex niveau 2
+
+            do {
+                level1Index2 = random.nextInt(6);
+            } while (level1Index2 == level2Index || level1Index2 == level1Index1);  // Différent des deux autres
+
+            hexes.get(level1Index1).setSystemType(SystemType.LEVEL1);
+            hexes.get(level1Index2).setSystemType(SystemType.LEVEL1);
         }
     }
 
-
-    public void removeShip(Ship ship) {
-        ships.remove(ship);
-    }
-
-    public void moveShipToSector(Ship ship, Sector targetSector) {
-        removeShip(ship);      // Enlever le vaisseau du secteur d'origine
-        targetSector.addShip(ship); //Ajouter le ship dans le secteur cible
-    }
-
-    public boolean hasCapacityForShip() {
-        int maxShips = 1 + systemType.ordinal(); //Le nombre maximum de ship que le secteur peut supporter
-        return ships.size() < maxShips; //Le secteur peut accueillir un ship si la capacite n'est pas depasser
-    }
+    // Récupère la liste des hexagones
     public List<Hex> getHexes() {
         return hexes;
     }
+
+    // Retourne l'hex à un index donné
+    public Hex getHex(int id) {
+        for (Hex hex : hexes) {
+            if (hex.getId() == id) {
+                return hex;
+            }
+        }
+        throw new IllegalArgumentException("Hex non trouvé avec l'ID: " + id);
+    }
+
+    // Affiche les informations du secteur
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Sector (" + x + ", " + y + "): ");
+        for (Hex hex : hexes) {
+            sb.append("[ID: ").append(hex.getId())
+                    .append(", Level: ").append(hex.getSystemType()).append("] ");
+        }
+        return sb.toString();
+    }
+
+    // Accesseurs pour les coordonnées
     public int getX() {
         return x;
     }
@@ -64,39 +87,7 @@ public class Sector implements Serializable {
         return y;
     }
 
-    public SystemType getSystemType() {
-        return systemType;
+    public boolean isTriPrime() {
+        return isTriPrime;
     }
-
-    public void setSystemType(SystemType systemType) {
-        this.systemType = systemType;
-    }
-
-    public List<Ship> getShips() {
-        return ships;
-    }
-
-    public void setHexes(List<Hex> hexes) {
-        this.hexes = hexes;
-    }
-
-    public List<Sector> getNeighbors() {
-        List<Sector> neighbors = new ArrayList<>();
-        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // Up, Down, Left, Right
-
-        for (int[] dir : directions) {
-            int newX = x + dir[0];
-            int newY = y + dir[1];
-
-            if (newX >= 0 && newX < 3 && newY >= 0 && newY < 3) {  // Ensure within board boundaries
-                neighbors.add(Board.getInstance().getSector(newX, newY));
-            }
-        }
-        return neighbors;
-    }
-
-    public void clearShips() {
-        ships.clear();
-    }
-
 }
