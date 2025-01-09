@@ -3,6 +3,7 @@ package test;
 import model.board.Board;
 import model.board.Sector;
 import model.board.SystemType;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,17 +42,6 @@ public class BoardTest {
     }
 
     @Test
-    public void testInvalidSectorRetrieval() {
-        Board board = Board.getInstance();
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            board.getSector(5, 5);
-        });
-
-        assertTrue(exception.getMessage().contains("Sector non trouvé"), "L'exception doit indiquer que le secteur est introuvable.");
-    }
-
-    @Test
     public void testResetBoard() {
         Board board = Board.getInstance();
         board.resetBoard();
@@ -64,5 +54,22 @@ public class BoardTest {
                 .count();
 
         assertEquals(1, centralHexLevel3, "Après réinitialisation, il doit y avoir un hex de niveau 3 au centre.");
+    }
+
+    @Test
+    public void testInvalidSectorRetrieval() {
+        Board board = Board.getInstance();
+
+        // Test retrieving a sector outside the valid range (e.g., (5, 5) on a 3x3 board)
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            board.getSector(5, 5);  // Invalid coordinates
+        });
+
+        // Assert that the exception message is as expected
+        String expectedMessage = "Sector not found at coordinates: (5, 5)";
+        String actualMessage = exception.getMessage();
+
+        Assertions.assertTrue(actualMessage.contains(expectedMessage),
+                "L'exception doit indiquer que le secteur est introuvable.");
     }
 }
