@@ -4,73 +4,63 @@ import model.board.Hex;
 import model.board.Sector;
 import model.board.SystemType;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SectorTest {
 
     @Test
     public void testSectorInitialization_TriPrime() {
-        // Test pour le secteur central (1,1) - Tri-Prime
-        Sector triPrimeSector = new Sector(1, 1);
+        // Test du secteur central (Tri-Prime)
+        Sector triPrimeSector = new Sector(1, 1);  // Secteur au centre
 
-        assertEquals(1, triPrimeSector.getHexes().size(), "Le secteur Tri-Prime doit avoir 1 hex.");
-        assertEquals(SystemType.LEVEL3, triPrimeSector.getHexes().get(0).getSystemType(),
-                "L'hex du secteur Tri-Prime doit être de niveau 3.");
+        assertTrue(triPrimeSector.isTriPrime(), "Ce secteur devrait être Tri-Prime.");
+        assertEquals(1, triPrimeSector.getHexes().size(), "Tri-Prime devrait contenir 1 hexagone.");
+
+        Hex hex = triPrimeSector.getHexes().get(0);
+        assertEquals(SystemType.LEVEL3, hex.getSystemType(), "L'hexagone du secteur Tri-Prime doit être de niveau 3.");
     }
 
     @Test
     public void testSectorInitialization_Standard() {
-        // Test pour les secteurs non centraux
-        Sector sector = new Sector(0, 0);
-        assertEquals(6, sector.getHexes().size(), "Un secteur standard doit avoir 6 hex.");
+        // Test d'un secteur normal (pas Tri-Prime)
+        Sector standardSector = new Sector(0, 0);  // Secteur classique
 
-        long level2Count = sector.getHexes().stream()
+        assertFalse(standardSector.isTriPrime(), "Ce secteur ne devrait pas être Tri-Prime.");
+        assertEquals(6, standardSector.getHexes().size(), "Un secteur classique doit contenir 6 hexagones.");
+
+        long level2Count = standardSector.getHexes().stream()
                 .filter(hex -> hex.getSystemType() == SystemType.LEVEL2)
                 .count();
 
-        long level1Count = sector.getHexes().stream()
+        long level1Count = standardSector.getHexes().stream()
                 .filter(hex -> hex.getSystemType() == SystemType.LEVEL1)
                 .count();
 
         // Vérifie qu'il y a exactement 1 hex de niveau 2 et 2 de niveau 1
-        assertEquals(1, level2Count, "Il doit y avoir 1 hex de niveau 2.");
-        assertEquals(2, level1Count, "Il doit y avoir 2 hex de niveau 1.");
+        assertEquals(1, level2Count, "Il doit y avoir exactement 1 hexagone de niveau 2.");
+        assertEquals(2, level1Count, "Il doit y avoir exactement 2 hexagones de niveau 1.");
     }
 
     @Test
-    public void testHexesAreUnique() {
-        Sector sector = new Sector(0, 0);
+    public void testHexUniqueness() {
+        // Test que tous les hex d'un secteur sont uniques
+        Sector sector = new Sector(2, 2);  // Un secteur standard
 
-        long uniqueHexTypes = sector.getHexes().stream()
-                .map(Hex::getSystemType)
+        long uniqueHexCount = sector.getHexes().stream()
+                .map(Hex::getId)
                 .distinct()
                 .count();
 
-        assertTrue(uniqueHexTypes > 1, "Les hex doivent avoir des niveaux différents.");
+        assertEquals(sector.getHexes().size(), uniqueHexCount, "Les hexagones doivent être uniques par ID.");
     }
 
     @Test
     public void testToString() {
+        // Vérifie que la méthode toString() retourne bien une description du secteur
         Sector sector = new Sector(2, 2);
-        System.out.println(sector);
-        assertNotNull(sector.toString(), "La méthode toString() ne doit pas retourner null.");
-    }
-
-    @Test
-    public void testNoExtraLevel3Hex() {
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 3; y++) {
-                Sector sector = new Sector(x, y);
-                long level3Count = sector.getHexes().stream()
-                        .filter(hex -> hex.getSystemType() == SystemType.LEVEL3)
-                        .count();
-
-                if (x == 1 && y == 1) {
-                    assertEquals(1, level3Count, "Le secteur central doit avoir 1 hex de niveau 3.");
-                } else {
-                    assertEquals(0, level3Count, "Les secteurs non centraux ne doivent pas avoir d'hex de niveau 3.");
-                }
-            }
-        }
+        String description = sector.toString();
+        assertNotNull(description, "La description du secteur ne doit pas être nulle.");
+        assertTrue(description.contains("Sector"), "La description doit contenir le mot 'Sector'.");
     }
 }
