@@ -1,4 +1,4 @@
-package model.board;
+package fr.lo02.imperium_control.model.board;
 
 import java.io.Serializable;
 
@@ -7,18 +7,30 @@ public class Hex implements Serializable {
     private SystemType systemType; // The type of system in this hex
     private boolean occupied; // Whether the hex is occupied or not
     private int capacity; // The maximum number of ships this hex can sustain
+    private int sectorX; // X-coordinate of the sector
+    private int sectorY; // Y-coordinate of the sector
 
     // Constructor
-    public Hex(int id, SystemType systemType) {
+    public Hex(int id, SystemType systemType, int sectorX, int sectorY) {
         this.id = id;
         this.systemType = systemType;
         this.occupied = false;
         this.capacity = calculateCapacity(systemType); // Calculate capacity based on system type
+        this.sectorX = sectorX;
+        this.sectorY = sectorY;
     }
 
     // Accessors (Getters)
     public int getId() {
         return id;
+    }
+
+    public int getSectorX() {
+        return sectorX;
+    }
+
+    public int getSectorY() {
+        return sectorY;
     }
 
     public SystemType getSystemType() {

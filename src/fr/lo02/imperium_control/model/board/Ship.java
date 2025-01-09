@@ -1,4 +1,4 @@
-package model.board;
+package fr.lo02.imperium_control.model.board;
 
 import java.io.Serializable;
 

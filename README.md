@@ -11,12 +11,12 @@ Pocket Imperium est une adaptation logicielle en Java du jeu de stratégie épon
 PocketImperium/  
 │  
 ├── src/  
-│   ├── controller/  
+│   ├── fr.lo02.imperium_control.controller/  
 │   │   ├── GameController.java       # Gère la boucle principale du jeu  
 │   │   ├── SaveManager.java          # Gestion des sauvegardes/chargements  
 │   │   └── CommandHandler.java       # Traite les commandes des joueurs/bots  
 │   │  
-│   ├── model/  
+│   ├── fr.lo02.imperium_control.model/  
 │   │   ├── board/  
 │   │   │   ├── Board.java            # Grille de jeu à 3x3 secteurs  
 │   │   │   ├── Sector.java           # Contient les hexes, contrôle les navires  
@@ -36,7 +36,7 @@ PocketImperium/
 │   │   │  
 │   │   └── Game.java                 # Gestion globale du jeu  
 │  
-│   ├── view/  
+│   ├── fr.lo02.imperium_control.view/  
 │   │   ├── cli/  
 │   │   │   └── ConsoleView.java      # Interface CLI (console)  
 │   │   └── gui/  
@@ -45,7 +45,7 @@ PocketImperium/
 │  
 │   └── Main.java                     # Point d'entrée de l'application  
 │  
-└── test/  
+└── fr.lo02.imperium_control.test/  
 ├── GameTest.java                 # Tests unitaires du jeu  
 ├── PlayerTest.java               # Tests des actions des joueurs  
 └── SectorTest.java               # Tests des interactions sectorielles
@@ -53,11 +53,11 @@ PocketImperium/
 ---
 
 ## Composants Principaux
-- **Controller Layer (controller/)** : Gère la logique du jeu et la coordination entre les modèles et les vues.
-- **Model Layer (model/)** : Contient la logique métier et la représentation des éléments du jeu.
-- **View Layer (view/)** : Interfaces CLI et GUI pour l'interaction avec l'utilisateur.
+- **Controller Layer (fr.lo02.imperium_control.controller/)** : Gère la logique du jeu et la coordination entre les modèles et les vues.
+- **Model Layer (fr.lo02.imperium_control.model/)** : Contient la logique métier et la représentation des éléments du jeu.
+- **View Layer (fr.lo02.imperium_control.view/)** : Interfaces CLI et GUI pour l'interaction avec l'utilisateur.
 - **Main Class (Main.java)** : Point de démarrage de l'application.
-- **Test Layer (test/)** : Tests unitaires pour assurer la stabilité du jeu.
+- **Test Layer (fr.lo02.imperium_control.test/)** : Tests unitaires pour assurer la stabilité du jeu.
 
 ---
 
@@ -123,3 +123,19 @@ Main.java – Lancement du jeu.
 // Optionel
 GameEventHandlers.java – Événements GUI.
 GuiView – Interfaces utilisateurs.
+
+System.out.println("Welcome to Pocket Imperium!");
+
+        // Initialize GameController
+        GameController gameController = new GameController();
+
+        // Create players (one real player, one bot for this example)
+        List<fr.lo02.imperium_control.model.player.Player> players = new ArrayList<>();
+        players.add(new RealPlayer("Player1", 15));
+        players.add(new BotPlayer("AI", 15));
+
+        // Initialize the game
+        Game game = new Game(gameController, players);
+
+        // Start the game
+        game.startGameLoop();
