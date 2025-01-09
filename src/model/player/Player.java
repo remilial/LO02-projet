@@ -19,24 +19,29 @@ public class Player {
     // Place a ship in a hex
     public void addShipToHex(Hex hex) {
         if (remainingShips > 0) {
-            occupiedHexes.add(hex);
-            remainingShips--;
+            if (!hex.isOccupied()) {
+                hex.occupy();  // Ensure the hex is marked as occupied
+                occupiedHexes.add(hex);
+                remainingShips--;
+            } else {
+                throw new IllegalStateException("Hex is already occupied.");
+            }
         } else {
             throw new IllegalStateException("No remaining ships to place.");
         }
     }
 
     // Accessors
+    public String getName() {
+        return name;
+    }
+
     public int getRemainingShips() {
         return remainingShips;
     }
 
     public List<Hex> getOccupiedHexes() {
         return occupiedHexes;
-    }
-
-    public String getName() {
-        return name;
     }
 
     @Override
