@@ -20,4 +20,8 @@ public class BotPlayer extends Player {
     public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
     }
+
+    public Object getStrategy() {
+        return strategy;
+    }
 }

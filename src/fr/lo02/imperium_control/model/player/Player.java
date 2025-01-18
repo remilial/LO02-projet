@@ -5,9 +5,10 @@ import fr.lo02.imperium_control.model.board.Hex;
 import fr.lo02.imperium_control.model.command.Command;
 import fr.lo02.imperium_control.model.command.CommandType;
 
+import java.io.Serializable;
 import java.util.*;
 
-public abstract class Player {
+public abstract class Player implements Serializable {
     private String name;
     private Map<Hex, Integer> shipsInHex; // Tracks ships in each hex
     private int remainingShips;

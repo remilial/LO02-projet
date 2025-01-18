@@ -3,9 +3,10 @@ package fr.lo02.imperium_control.model.player;
 import fr.lo02.imperium_control.controller.GameController;
 import fr.lo02.imperium_control.model.command.Command;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Game {
+public class Game implements Serializable {
     private final GameController gameController;
     private final List<Player> players;
 
